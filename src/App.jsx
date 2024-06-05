@@ -1,9 +1,18 @@
-import React from "react";
-import foto from "./assets/img.png"
-export default function App() {
+import { useState } from "react";
+import Header from "./Pages/Admin/Header.jsx";
+import { BrowserRouter as Router } from "react-router-dom";
+<script src="https://cdn.tailwindcss.com"></script>
+
+function App() {
   return (
     <>
-    <div class="bg-gradient-to-r from-green-500 from-10% via-slate-50 via-50% to-red-600 to-80% h-16"><h2>Hola</h2></div>
+      <Router>
+        <div className="w-full min-h-screen bg-gray-50">
+          <Header />
+        </div>
+      </Router>
     </>
   );
 }
+
+export default App;
