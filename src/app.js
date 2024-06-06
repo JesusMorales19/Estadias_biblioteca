@@ -1,24 +1,14 @@
-import express from "express"
-import morgan from "morgan"
-import cookieParser from "cookie-parser"
-import cors from "cors"
+import express from "express";
+import morgan from "morgan";
+import authRoute from "./routers/auth.router.js";
+import cors from "cors";
 
 const app = express();
-
+app.use(cors({ origin: '*', optionsSuccessStatus: 200 }));
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(cookieParser());
-app.use(
-    cors({
-        origin: "http://localhost:5173",
-        credentials: true,
-    })
-);
 
-app.get("/", (req, res) => {
-    const cookies = req.cookies;
-    res.send(cookies);
-});
+
+app.use("/api", authRoute);
 
 export default app;
