@@ -30,11 +30,11 @@ const Header = () => {
   ];
   return (
     <>
-      <nav className="w-full h-auto bg-gradient-to-r from-green-600 via-white to-red-600 lg:px-24 md:px-16 sm:px-14 px-12 py-2 shadow-md">
+      <nav className="w-auto h-24 bg-gradient-to-r from-green-600 via-white to-red-600 lg:px-24 md:px-16 sm:px-14 px-12 py-2 shadow-md">
         <div className="justify-between mx-auto lg:w-full md:items-center md:flex">
           {/* Navbar logo & toggle button section */}
           <div className="flex items-center justify-between py-10 md:py-10">
-            <img src={Logo} alt="Logo" className="h-10 w-16 mr-4 px-0" />
+            <img src={Logo} alt="Logo" className="absolute left-4 top-4 h-16 w-25" />
             {/* Toggle button section */}
             <div className="md:hidden">
               <button
@@ -55,7 +55,7 @@ const Header = () => {
               </button>
             </div>
           </div>
-
+ 
           {/* Navbar menu items section */}
           <div
             className={`flex justify-between items-center md:block ${
@@ -67,7 +67,7 @@ const Header = () => {
                 <li key={index}>
                   <Link
                     to={item.link}
-                    className="text-black-400 text-[1.15rem] font-medium tracking-wider hover:text-gray-200 ease-out duration-700"
+                    className="text-black-400 text-center text-[1.15rem] font-medium tracking-wider hover:text-blue-600 ease-out duration-700"
                   >
                     {item.name}
                   </Link>
@@ -78,7 +78,7 @@ const Header = () => {
               </button>
             </ul>
           </div>
-        </div>
+        </div> 
       </nav>
     </>
   );

@@ -2,6 +2,7 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
+import logo from "../../assets/logo_jaz.png"
 
 const Dashboard = () => {
   const data = {
@@ -30,13 +31,13 @@ const Dashboard = () => {
       },
     ],
   };
-
+ 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       {/* Header */}
-      <div className="flex justify-between items-center bg-green-500 p-4 rounded-md shadow-md mb-4">
-        <img src="logo.png" alt="Logo" className="h-16" />
-        <nav className="flex space-x-4 text-white text-lg">
+      <div className="flex justify-between items-center bg-gradient-to-r from-green-600 via-white to-red-600 p-4 rounded-md shadow-md mb-4">
+        <img src={logo} alt="Logo" className="h-16 py-5" />
+        <nav className="flex space-x-10 text-black text-lg ">
           <a href="#" className="hover:text-gray-200">Home</a>
           <a href="#" className="hover:text-gray-200">Bandeja</a>
           <a href="#" className="hover:text-gray-200">Registros</a>
