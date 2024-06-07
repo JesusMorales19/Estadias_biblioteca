@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { FaTimes, FaBars } from "react-icons/fa";
 import Logo from "../../assets/logo_jaz.png";
 
-const Header = () => {
+const HeaderPae = () => {
   const [navbar, setNavbar] = useState(false);
   const Navbar = [
     {
