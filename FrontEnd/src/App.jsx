@@ -4,13 +4,14 @@ import { useState } from "react";
 //import Dashboard from "./Pages/Admin/HomeAdmin.jsx"
 import PrincipalPage from "./Pages/PrincipalPage.jsx";
 import { BrowserRouter as Router } from "react-router-dom";
+import Dashboard from "./Pages/Admin/HomeAdmin.jsx";
 
 function App() {
   return (
     <>
       <Router>
         <div className="w-full min-h-screen bg-gray-50">
-          <PrincipalPage />
+          <Dashboard />
         </div>
       </Router>
     </>

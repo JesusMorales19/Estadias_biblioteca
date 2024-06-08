@@ -7,12 +7,6 @@ const clientSchema = new mongoose.Schema({
         trim: true,
         unique: true,
     },
-    email: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
-    },
     firstName: {
         type: String,
         required: String,

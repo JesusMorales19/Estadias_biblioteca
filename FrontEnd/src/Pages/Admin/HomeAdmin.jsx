@@ -6,11 +6,13 @@ import logo from "../../assets/logo_jaz.png";
 
 const Dashboard = () => {
   const [theme, setTheme] = useState(() => {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (window.matchMedia('(prefers-color-scheme: white)').matches) {
       return "dark";
     }
     return "light";
   });
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (theme === "dark") {
@@ -23,6 +25,10 @@ const Dashboard = () => {
   const changeTheme = () => {
     setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
   };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  }
 
   const data = {
     labels: ['2006', '2007', '2008', '2009', '2010', '2011'],
@@ -52,26 +58,44 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 dark:bg-neutral-900">
+    <div className="bg-gray-100 p-4 dark:bg-neutral-900 min-h-screen">
       {/* Header */}
-      <div className="flex justify-between items-center bg-gradient-to-r from-green-600 via-white to-red-600 p-4 rounded-md shadow-md mb-4 ">
-        <img src={logo} alt="Logo" className="h-24 py-5 " />
-        <nav className="flex space-x-10 text-black text-lg ">
-          <a href="#" className="hover:text-gray-200">Home</a>
-          <a href="#" className="hover:text-gray-200">Bandeja</a>
-          <a href="#" className="hover:text-gray-200">Registros</a>
-          <a href="#" className="hover:text-gray-200">Libros</a>
+      <div className="flex justify-between items-center bg-gradient-to-r from-green-600 via-white to-red-600 p-4 rounded-md shadow-md mb-4">
+        <img src={logo} alt="Logo" className="h-24 py-5" />
+        <nav className="hidden md:flex space-x-10 text-black text-xl">
+          <a href="#" className="hover:text-blue-600 font-serif ">Home</a>
+          <a href="#" className="hover:text-blue-600 text-center font-serif">Bandeja</a>
+          <a href="#" className="hover:text-blue-600 text-center font-serif">Registros</a>
+          <a href="#" className="hover:text-blue-600 text-center font-serif">Libros</a>
+       
         </nav>
-        <div className="flex items-center space-x-2 ">
-          <button className="text-xl text-white" onClick={changeTheme}>🌙</button>
-          <button className="text-xl text-white">👤</button>
+        <div className="flex items-center space-x-2">
+            <button className="text-xl text-white" onClick={changeTheme}>
+              {theme === 'dark' ? '☀' : '🌙'}
+            </button>
+            <button className="text-xl text-white">👤</button>
+          </div>
+        <div className="md:hidden flex items-center">
+          <button onClick={toggleMenu} className="text-black">
+            {menuOpen ? '✖️' : '☰'}
+          </button>
         </div>
       </div>
-
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <nav className="md:hidden bg-gradient-to-r from-green-600 via-white to-red-600 p-4 rounded-md shadow-md">
+          <a href="#" className="block py-2 hover:text-blue-600">Home</a>
+          <a href="#" className="block py-2 hover:text-blue-600">Personal</a>
+          <a href="#" className="block py-2 hover:text-blue-600">Buzon</a>
+          <a href="#" className="block py-2 hover:text-blue-600">Opiniones</a>
+       
+        </nav>
+        
+      )}
       {/* Main Content */}
-      <div className="flex justify-between dark:bg-neutral-900">
+      <div className="flex flex-col md:flex-row justify-between dark:bg-neutral-900">
         {/* Gráfica */}
-        <div className="bg-white p-4 rounded-md shadow-md w-2/3 dark:bg-neutral-800">
+        <div className="bg-white p-4 rounded-md shadow-md w-full md:w-2/3 dark:bg-neutral-800 mb-4 md:mb-0">
           <h2 className="text-center text-lg font-bold mb-4 dark:text-white">Evolución del Programa Propio de Investigación</h2>
           <Bar data={data} />
           <div className="flex justify-center space-x-2 mt-4">
@@ -83,7 +107,7 @@ const Dashboard = () => {
         </div>
 
         {/* Contadores */}
-        <div className="flex flex-col space-y-4 ">
+        <div className="flex flex-col space-y-4">
           <div className="bg-white p-4 rounded-md shadow-md text-center dark:bg-neutral-800">
             <h3 className="text-4xl text-blue-600">4,230</h3>
             <p className="text-lg dark:text-white">En vista</p>
@@ -98,24 +122,24 @@ const Dashboard = () => {
       {/* Tabs */}
       <div className="flex justify-center my-8">
         <button className="px-4 py-2 mx-2 bg-blue-600 text-white rounded shadow-md dark:bg-neutral-750">Libros</button>
-        <button className="px-4 py-2 mx-2 bg-gray-200 text-black rounded shadow-md dark:bg-neutral-800 dark: text-slate-400">Usuarios</button>
+        <button className="px-4 py-2 mx-2 bg-gray-200 text-black rounded shadow-md dark:bg-neutral-800 dark:text-slate-400">Usuarios</button>
       </div>
 
       {/* Tabla */}
-      <div className="bg-white p-4 rounded-md shadow-md dark:bg-neutral-800">
+      <div className="bg-white p-4 rounded-md shadow-md dark:bg-neutral-800 overflow-x-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold dark:text-white">Usuarios</h2>
-          <input type="text" placeholder="Search users" className="p-1 w-15 border rounded-md" />
+          <input type="text" placeholder="Search users" className="p-1 border rounded-md" />
         </div>
         <table className="min-w-full border-collapse border">
           <thead>
-            <tr className="border-b">
-              <th className="border px-4 py-2 dark:text-white">usuario</th>
-              <th className="border px-4 py-2 dark:text-white">Nombre</th>
-              <th className="border px-4 py-2 dark:text-white">apellido</th>
-              <th className="border px-4 py-2 dark:text-white">edad</th>
-              <th className="border px-4 py-2 dark:text-white">telefono</th>
-              <th className="border px-4 py-2 dark:text-white">direccion</th>
+            <tr className="border-b text-center">
+              <th className="border px-4 py-2 dark:text-white text-center">Usuario</th>
+              <th className="border px-4 py-2 dark:text-white text-center">Nombre</th>
+              <th className="border px-4 py-2 dark:text-white text-center">Apellido</th>
+              <th className="border px-4 py-2 dark:text-white text-center">Edad</th>
+              <th className="border px-4 py-2 dark:text-white text-center">Teléfono</th>
+              <th className="border px-4 py-2 dark:text-white text-center">Dirección</th>
             </tr>
           </thead>
           <tbody>

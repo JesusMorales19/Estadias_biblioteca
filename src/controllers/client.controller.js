@@ -3,7 +3,7 @@ import { getToken, getTokenData } from "../config/jwt.config.js";
 
 export const registerClient = async (req, res) => {
     console.log(req.body);
-    const {username, email, firstName, lastName, address, phoneNumber, status, old} = req.body;
+    const {username, firstName, lastName, address, phoneNumber, status, old} = req.body;
     try {
         const existingUser = await User.findOne({username});
 
@@ -12,7 +12,6 @@ export const registerClient = async (req, res) => {
         }
         const newClient = new Client({
             username, 
-            email,
             firstName,
             lastName,
             address, 
