@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import 'chart.js/auto';
 import logo from "../assets/logo_jaz.png";
