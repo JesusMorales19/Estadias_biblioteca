@@ -8,7 +8,7 @@ const Registro = () => {
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
   };
-
+ 
   return (
     <div className="min-h-screen bg-blue-100 flex flex-col dark:bg-neutral-900">
       {/* Include HeaderAdmin */}

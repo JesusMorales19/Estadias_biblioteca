@@ -31,7 +31,7 @@ const Consulta = () => {
         return 'from-blue-300 via-white to-blue-300 dark:from-blue-500 dark:via-black dark:to-blue-500';
     }
   };
-
+ 
   return (
     <div className={`min-h-screen bg-gradient-to-b ${getBackgroundClass()} text-black dark:text-white`}>
       {/* Include HeaderAdmin */}
