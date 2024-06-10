@@ -8,6 +8,7 @@ const PrincipalPage = () => {
     if (window.matchMedia('(prefers-color-scheme: black)').matches) {
       return "dark";
     }
+    
     return "light";
   });
 
