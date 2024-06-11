@@ -23,8 +23,26 @@ export const registerClient = async (req, res) => {
         const saveClient = await newClient.save(); 
         const token = getToken({ username: username});
         res.send(saveClient);
+        console.log("Hola");
         res.send(token);
     } catch (error) {
         res.status(500).json({error: error.message});
     };
 };
+
+export const deleteClient = async (req, res) => {
+    try{
+        const { code } = req.params;
+        const existingClient = await Client.findOne({ username: code });
+
+        if(!existingClient || existingClient.status === "false") {
+            return res.status(404).send("Client not found");
+        }
+
+        existingClient.status = false;
+        const updateClient = await existingClient.save();
+        res.send(updateClient);
+    } catch(error){
+        res.status(500).send("Client cannot be deleted")
+    }
+}

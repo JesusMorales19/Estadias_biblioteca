@@ -40,6 +40,10 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required:true,
     },
+    status: {
+        type: Boolean,
+        default: true,
+      },
 });
 
 export default mongoose.model("Books", bookSchema);
