@@ -5,7 +5,7 @@ export const registerClient = async (req, res) => {
     console.log(req.body);
     const {username, firstName, lastName, address, phoneNumber, status, old} = req.body;
     try {
-        const existingUser = await User.findOne({username});
+        const existingUser = await User.findOne({ username });
 
         if (!existingUser) {
             return res.status(404).send("User not found");
@@ -21,7 +21,7 @@ export const registerClient = async (req, res) => {
         });
 
         const saveClient = await newClient.save(); 
-        const token = getToken({ username: username});
+        const token = getToken({ username: username });
         res.send(saveClient);
         console.log("Hola");
         res.send(token);

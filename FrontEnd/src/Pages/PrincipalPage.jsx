@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import 'chart.js/auto';
 import logo from "../assets/logo_jaz.png";
+import CarouselDefault from "../componente/carousel.jsx";
+
 
 const PrincipalPage = () => {
   const [theme, setTheme] = useState(() => {
@@ -60,6 +62,7 @@ const PrincipalPage = () => {
           <button className="mt-4 w-full text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full h-12">Empezar</button>
         </nav>
       )}
+      <CarouselDefault />
     </div>
   );
 };

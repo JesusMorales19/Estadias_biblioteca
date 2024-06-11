@@ -5,8 +5,10 @@ import { UserControllers, BookControllers, ClientControllers } from "../controll
 const router = Router();
 
 //User Routes
+router.post("/login/user", UserControllers.login)
 router.post("/register/user", UserControllers.registerUser);
 router.delete("/delete/user/:code", UserControllers.deleteUser)
+
 
 
 //Books Routes
