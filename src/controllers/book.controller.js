@@ -38,3 +38,32 @@ export const deleteBook = async (req, res) => {
         res.status(500).send("Book cannot be deleted")
     }
 }
+
+export const deleteBookF = async (req, res) => {
+    try {
+        const { code } = req.params;
+        const existingBook = await Books.findOne({ ISBN: code });
+        if(!existingBook || existingBook.status === "true") {
+            return res.status(404).send("Book not found");
+        }
+        const deletedUser = await existingBook.deleteOne();
+        res.send(deletedUser);
+    } catch (error) {
+        res.status(500).send("Book cannot be deleted")
+    }
+}
+
+export const recoverBook = async (req, res) => {
+    try {
+        const { code } = req.params;
+        const existingBook = await Books.findOne({ ISBN: code });
+        if(!existingBook){
+            return res.status(404).send("Book not found");
+        }
+        existingBook.status = true;
+        const updatedBook = await existingBook.save();
+        res.send(updatedBook);
+    } catch (error) {
+        res.status(500).send("Book cannot be recover")
+    }
+}

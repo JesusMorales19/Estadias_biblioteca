@@ -46,3 +46,36 @@ export const deleteClient = async (req, res) => {
         res.status(500).send("Client cannot be deleted")
     }
 }
+
+export const updateClient = async (req, res) => {
+    const { code } =  req.params;
+    const { address, phoneNumber, old } = req.body;
+    try {
+        const existingClient = await Client.findOne({ username: code });
+        if(!existingClient){
+            return res.status(404).send("Client not found");
+        }
+        existingClient.address = address;
+        existingClient.phoneNumber = phoneNumber;
+        existingClient.old = old;
+        const updatedClient = await existingClient.save();
+        res.send(updatedClient);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Client cannot be updated")
+    }
+}
+
+export const getClient = async (req, res) => {
+    const { code } = req.params;
+    try {
+        const existingClient = await Client.findOne({ username: code });
+        if(!existingClient || existingClient.status === false) {
+            return res.status(404).send("Client not found");
+        }
+        res.send(existingClient);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error getting Clients info");
+    }
+}
