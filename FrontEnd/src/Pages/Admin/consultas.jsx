@@ -1,7 +1,7 @@
 // Pages/Admin/Consultas.jsx
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-import HeaderAdmin from '../../componente/HeaderAdmin';
+import HeaderAdmin from '../../components/HeaderAdmin';
 
 const Consulta = () => {
   const [activeTab, setActiveTab] = useState('Prestados');
@@ -35,7 +35,7 @@ const Consulta = () => {
   return (
     <div className={`min-h-screen bg-gradient-to-b ${getBackgroundClass()} text-black dark:text-white`}>
       {/* Include HeaderAdmin */}
-      <HeaderAdmin />
+      <HeaderAdmin/>
       <div className="flex justify-around py-4">
         <button
           className={`px-4 py-2 rounded ${activeTab === 'Prestados' ? 'bg-blue-700 text-white' : 'bg-gray-300 dark:bg-gray-700'}`}
@@ -56,8 +56,8 @@ const Consulta = () => {
           Donados
         </button>
       </div>
-      <div className="container mx-auto p-4 bg-gradient-to-b border-solid border-2 border-sky-700 rounded-lg">
-        <table className="min-w-full border-collapse border border-gray-200 dark:border-gray-700">
+      <div className="container min-w-full p-4 bg-gradient-to-b border-solid border-2 border-sky-700 rounded-lg overflow-auto">
+        <table className="min-w-full border-collapse border border-gray-200 dark:border-gray-700 divide-y">
           <thead>
             <tr>
               <th className="border border-gray-200 dark:border-gray-700 p-2">Titulo</th>

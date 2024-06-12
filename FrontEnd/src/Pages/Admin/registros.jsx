@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-import HeaderAdmin from '../../componente/HeaderAdmin';
+import HeaderAdmin from '../../components/HeaderAdmin';
 
 const Registro = () => {
   const [selectedTab, setSelectedTab] = useState('usuarios');
