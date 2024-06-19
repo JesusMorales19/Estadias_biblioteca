@@ -1,7 +1,7 @@
 // Pages/Admin/Consultas.jsx
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-import HeaderAdmin from '../../componente/HeaderAdmin';
+import HeaderAdmin from '../../components/HeaderAdmin';
 
 const Consulta = () => {
   const [activeTab, setActiveTab] = useState('Prestados');
@@ -47,6 +47,7 @@ const Consulta = () => {
           className={`px-4 py-2 rounded ${activeTab === 'Perdidos' ? 'bg-red-500 text-white' : 'bg-gray-300 dark:bg-gray-700'}`}
           onClick={() => setActiveTab('Perdidos')}
         >
+          
           Perdidos
         </button>
         <button

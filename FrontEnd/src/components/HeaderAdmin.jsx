@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 import logo from "../assets/logo_jaz.png";
 
@@ -10,7 +11,7 @@ const HeaderAdmin = () => {
   });
 
   const [menuOpen, setMenuOpen] = useState(false);
-
+ 
   useEffect(() => {
     if (theme === "dark") {
       document.querySelector('html').classList.add('dark');
@@ -57,6 +58,7 @@ const HeaderAdmin = () => {
           <a href="#" className="block py-2 hover:text-blue-600">Opiniones</a>
         </nav>
       )}
+      
     </div>
   );
 };
