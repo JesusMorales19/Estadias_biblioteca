@@ -9,7 +9,7 @@ const CarouselDefault = () => {
     'https://via.placeholder.com/800x400?text=Slide+3',
     'https://via.placeholder.com/800x400?text=Slide+4',
   ];
-
+ 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
