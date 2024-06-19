@@ -1,181 +1,106 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { RegistrarUsuario, login, verifyTokenRequest, getUserRequest, getUsersRequest, updateUserRequest, deleteUsersRequest, createUserRequest, restoreUserRequest } from "../api/auth";
+import PropTypes from 'prop-types'; // Importa PropTypes para validar las props
 
-import PropTypes from 'prop-types';
-import Cookies from 'js-cookie';
+import { registerUser, login, deleteUserF, deleteUserPermanently } from "../api/auth";
+import { getUserFromToken } from "../api/token"; // Importa el método ficticio getUserFromToken
 
 export const AuthContext = createContext();
 
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {
-        throw new Error("useAuth deberia estar dentro del provider");
+        throw new Error("useAuth should be used within an AuthProvider");
     }
     return context;
 }; 
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState([]);
-    const [isAuth, setIsAuth] = useState(false);
-    const [errors, setErrors] = useState([]);
+    const [user, setUser] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
-
-
-    //Toma solo un usuario
-    const getUsers = async (id) => {
-        try {
-          const res = await getUsersRequest(id);
-          return res.data;
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-    //Toma todos los usuarios
-    const getUser = async () => {
-        try {
-            const res = await getUserRequest();
-            return res.data; 
-        } catch (error) {
-            console.error(error);
-            return []; 
-        }
-    };
-
-    //Agrega Usuarios
-    const agregarUsers = async (user) =>{
-        try {
-            const res = await createUserRequest(user)
-            console.log(res)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    //Hace el registro
-    const signup = async (user) => {
-        try {
-          const response = await RegistrarUsuario(user);
-          
-          if (response.status === 201) {
-            setUser(response.data);
-            setIsAuth(true);
-          } else {
-            console.error(response.data.message);
-            setErrors([response.data.message]);
-          }
-        } catch (error) {
-          console.error(error.message);
-          setErrors(["Error al intentar registrar el usuario"]);
-        }
-      };
-      
-
-    //Hace el login
-    const signin = async (user) => {
-        try {
-            const res = await login(user);
-            setUser(res.data);
-            setIsAuth(true);
-        } catch (error) {
-            if (Array.isArray(error.response.data)) {
-                setErrors(error.response.data);
-            } else {
-                setErrors([error.response.data.message]);
-            }
-        }
-    };
-
-    //Hace el logout
-    const logout = () => {
-        Cookies.remove("token");
-        setIsAuth(false);
-        setUser(null);
-    };
-
-    //actualiza los datos
-    const updateUser = async (id, user) =>{
-        try {
-            await updateUserRequest(id, user); // Pasamos user como argumento
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    //baja definitiva de usuarios
-    const deleteUser = async (id) =>{
-        try {
-            const res = await deleteUsersRequest(id)
-            console.log(res.data)
-        } catch (error) {
-            console.log(error)
-
-        }
-    }
-    const restoreUser = async (id) =>{
-        try {
-            const res = await restoreUserRequest(id)
-            console.log(res.data)
-        } catch (error) {
-            console.log(error)
-
-        }
-    }
-    
-    useEffect(() => {
-        if (errors.length > 0) {
-            const timer = setTimeout(() => {
-                setErrors([]);
-            }, 5000);
-            return () => clearTimeout(timer);
-        }
-    }, [errors]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        async function checkLogin() {
-            const cookies = Cookies.get();
-            if (!cookies.token) {
-                setIsAuth(false);
-                setLoading(false);
-                return setUser(null);
-            }
+        const checkAuthentication = async () => {
             try {
-                const res = await verifyTokenRequest(cookies.token);
-                if (!res.data) {
-                    setIsAuth(false);
-                    setLoading(false);
-                    return;
-                }
+                setLoading(true);
 
-                setIsAuth(true);
-                setUser(res.data);
-                setLoading(false);
+                const token = localStorage.getItem("token");
+
+                if (token) {
+                    const user = await getUserFromToken(token);
+                    setUser(user);
+                    setIsAuthenticated(true);
+                } else {
+                    setUser(null);
+                    setIsAuthenticated(false);
+                }
             } catch (error) {
-                setIsAuth(false);
-                setUser(null);
+                setError(error.message);
+            } finally {
                 setLoading(false);
             }
-        }
-        checkLogin();
+        };
+
+        checkAuthentication();
     }, []);
 
+    const register = async (userData) => {
+        try {
+            const newUser = await registerUser(userData);
+            setUser(newUser);
+            setIsAuthenticated(true);
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+
+    const signin = async (credentials) => {
+        try {
+            const loggedInUser = await login(credentials);
+            setUser(loggedInUser);
+            setIsAuthenticated(true);
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+
+    const deleteUserAccount = async (username) => {
+        try {
+            await deleteUserF(username);
+            setUser(null);
+            setIsAuthenticated(false);
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+
+    const deletePermanently = async (username) => {
+        try {
+            await deleteUserPermanently(username);
+            setUser(null);
+            setIsAuthenticated(false);
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+
+    const logout = () => {
+        setUser(null);
+        setIsAuthenticated(false);
+    };
 
     return (
         <AuthContext.Provider value={{
-            signup,
+            user,
+            isAuthenticated,
+            loading,
+            error,
+            register,
             signin,
             logout,
-            getUser,
-            getUsers,
-            updateUser,
-            deleteUser,
-            restoreUser,
-            agregarUsers,
-            user,
-            isAuth,
-            loading,
-            errors,
-           
+            deleteUserAccount,
+            deletePermanently
         }}>
             {children}
         </AuthContext.Provider>

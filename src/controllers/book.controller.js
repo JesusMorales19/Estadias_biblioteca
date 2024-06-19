@@ -1,9 +1,15 @@
-import {Books} from "../models/models.js";
+import {Books, Categorys} from "../models/models.js";
 
 
 export const registerBook = async (req, res) => {
     console.log(req.body);
     const {ISBN, title, author, publisher, yearPublication, copies, category, donation, description, status} = req.body;
+    const existingCategory = await Categorys.findOne({Category: category});
+    console.log("1", existingCategory);
+    if(!existingCategory){
+        console.log("La Categoria no existe.");
+        return res.status(400).json({error:"La categoria no existe."});
+    }
     try {
         const newBook = new Books({
             ISBN,

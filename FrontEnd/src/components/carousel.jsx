@@ -4,7 +4,7 @@ import fondo from "../assets/img.png"
 
 const CarouselDefault = () => {
   const images = [
-    fondo,
+    'https://via.placeholder.com/800x400?text=Slide+1',
     'https://via.placeholder.com/800x400?text=Slide+2',
     'https://via.placeholder.com/800x400?text=Slide+3',
     'https://via.placeholder.com/800x400?text=Slide+4',

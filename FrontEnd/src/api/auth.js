@@ -1,30 +1,37 @@
 import axios from './axios';
 
-export const RegistrarUsuario = (user) => axios.post(`/registrar`, user);
-export const login = (user) => axios.post(`/login`, user);
-export const verifyTokenRequest = () => axios.get(`/verify`);
-
-export const getUserRequest = () => axios.get(`/usuarios`);
-export const getUsersRequest = (id) => axios.get(`/usuario/${id}`);
-
-export const createUserRequest = (user) => axios.post(`/usuario`, user)
-export const searchUserRequest = (id) => axios.get(`/users/${id}`);
-export const updateUserRequest = (id, user) => axios.put(`/usuario/${id}`, user);
-export const deleteUserRequest = async (iduser) => {
+export const registerUser = async (userData) => {
     try {
-        await axios.put(`/bajaUsuario/${iduser}`);
+        const response = await axios.post(`/registerUser`, userData);
+        return response.data;
     } catch (error) {
-        console.error("Error al eliminar usuario:", error);
-        throw new Error("Error al eliminar usuario");
+        throw new Error(error.response.data.error || "Error registering user");
     }
 };
-export const restoreUserRequest = async (id) => {
+
+export const login = async (credentials) => {
     try {
-        await axios.put(`/restaurarUsuario/${id}`);
+        const response = await axios.post(`/login`, credentials);
+        return response.data;
     } catch (error) {
-        console.error("Error al restaurar usuario:", error);
-        throw new Error("Error al restaurar usuario");
+        throw new Error(error.response.data.error || "Error logging in");
     }
 };
-export const getDeletedUsersRequest = () => axios.get("/usuarios/eliminados");
-export const deleteUsersRequest = (id)=>axios.delete(`/usuario/${id}`);
+
+export const deleteUserF = async (username) => {
+    try {
+        const response = await axios.put(`/deleteUser/${username}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response.data.error || "Error deleting user");
+    }
+};
+
+export const deleteUserPermanently = async (username) => {
+    try {
+        const response = await axios.delete(`/deleteUser/${username}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response.data.error || "Error permanently deleting user");
+    }
+};
