@@ -59,3 +59,17 @@ export const registerUser = async (req, res) => {
     res.status(500).send("User cannot be deleted")
 }
  }
+
+ export const deleteUserF = async (res, req) =>{
+    try {
+        const { code } = req.params;
+        const existingUser = await User.findOne({ username: code });
+        if(!existingUser || existingUser.status === "true") {
+            return res.status(404).send("User not found");
+        }
+        const deletedUser = await existingUser.deleteOne();
+        res.send(deletedUser);
+    } catch (error) {
+        res.status(500).send("User cannot be deleted");
+    }
+}

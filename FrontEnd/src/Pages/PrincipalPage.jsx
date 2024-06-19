@@ -73,19 +73,20 @@ const PrincipalPage = () => {
       <div className="flex flex-col md:flex-row justify-around items-start mt-8 space-y-8 md:space-y-0 relative z-10">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:w-1/2">
           <div className="flex flex-col items-center">
-            <img src={metas} className="w-20 md:w-40 lg:w-60 object-contain" alt="Metas" />
+            <img src={metas} className="w-20 md:w-40 lg:w-40 object-contain" alt="Metas" />
             <h1 className="text-green-500 font-serif text-xl font-semibold mt-2">Metas</h1>
             <p className="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </div>
           <div className="flex flex-col items-center">
-            <img src={alcances} className="w-20 md:w-40 lg:w-60 object-contain" alt="Alcances" />
+            <img src={alcances} className="w-20 md:w-40 lg:w-40 object-contain" alt="Alcances" />
             <h1 className="text-blue-500 font-serif text-xl font-semibold mt-2">Alcances</h1>
             <p className="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </div>
           <div className="flex flex-col items-center col-span-2 md:col-span-1">
-            <img src={logros} className="w-20 md:w-40 lg:w-60 object-contain" alt="Logros" />
+            <img src={logros} className="w-20 md:w-40 lg:w-40 object-center" alt="Logros" />
             <h1 className="text-yellow-500 font-serif text-xl font-semibold mt-2">Logros</h1>
-            <p className="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p className=" flex flex-col items-center text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
           </div>
         </div>
 
@@ -145,8 +146,8 @@ const PrincipalPage = () => {
       <div className="flex flex-col items-center space-y-8">
         <div className="flex flex-col lg:flex-row items-center lg:items-start w-full max-w-5xl p-4">
           <div className="text-center lg:text-left lg:w-1/3 lg:mr-8 mb-8 lg:mb-0">
-            <h2 className="text-green-700 text-lg font-semibold text-center">presidente municipal:</h2>
-            <p className="text-black text-lg">hassan silvano garduño serrano</p>
+            <h2 className="text-green-700 text-lg font-semibold text-center">Presidente Municipal:</h2>
+            <p className="text-black text-lg">Hassan Silvano Garduño Serrano</p>
             <p className="text-gray-600">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti voluptas autem inventore temporibus officiis aliquid in quis dolores, soluta explicabo, sunt odio magnam quia eius, illum doloremque maiores magni alias.</p>
             <div className="flex justify-center lg:justify-center space-x-4 mt-4">
               <button className="text-blue-500 text-2xl"><FaGlobe /></button>
@@ -159,9 +160,9 @@ const PrincipalPage = () => {
             <img src={presidenteImg} alt="Presidente Municipal" className="w-64 h-64 object-cover rounded-lg shadow-md" />
           </div>
           <div className="text-center lg:text-right lg:w-1/3 lg:ml-8 justify-center">
-            <h2 className="text-black text-lg font-semibold text-center">¡hacer mas por la gente!</h2>
+            <h2 className="text-black text-lg font-semibold text-center">¡Hacer mas por la gente!</h2>
             <img src={escudo} alt="Escudo" className="w-32 h-32 mx-auto my-4" />
-            <p className="text-black text-center">somos un municipio unido por la humildad, trabajo y compromiso</p>
+            <p className="text-black text-center">Somos un municipio unido por la humildad, trabajo y compromiso</p>
             <div className="flex justify-center lg:justify-center space-x-4 mt-4">
               <button className="text-blue-700 text-2xl"><FaFacebook /></button>
               <button className="text-2xl rounded-lg" style={{ 

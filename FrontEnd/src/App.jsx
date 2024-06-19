@@ -11,7 +11,7 @@ function App() {
     <>
       <Router>
         <div className="w-full min-h-screen bg-gray-50">
-          <PrincipalPage/>
+          <Registro/>
         </div>
       </Router>
     </>
