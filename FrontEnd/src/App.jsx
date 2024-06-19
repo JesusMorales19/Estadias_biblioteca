@@ -1,31 +1,39 @@
-// eslint-disable-next-line no-unused-vars
-import { useState } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-
-
-//import Bandeja from "./Pages/Admin/Bandeja";
-
-
-//import PrincipalPage from "./Pages/PrincipalPage";
-
-import Consulta from "./Pages/Admin/consultas.jsx";
-//import Dashboard from "./Pages/Admin/HomeAdmin.jsx";
-//import Registro from "./Pages/Admin/registros.jsx";
-//import HomeAdmin from "./Pages/Admin/HomeAdmin";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './Pages/Login';
+import Consultas from "./Pages/Admin/consultas";
+import Bandeja from "./Pages/Admin/Bandeja";
+import Dashboard from "./Pages/Admin/HomeAdmin"; // Asumiendo que HomeAdmin es tu página de inicio para administradores
+import Registros from "./Pages/Admin/registro/estilo_registro";
+import ProtectedRoute_admin from "./protecterRoute_admin";
+import ProtectedRoute_client from "./protectedRoute_client";
+import PrincipalPage from "./Pages/PrincipalPage";
+import { AuthProvider } from './context/authContext';
 
 function App() {
   return (
-    <>
-      <Router>
-
-     
-
-        <div className="w-full min-h-screen bg-gray-50">
-          <Consulta/>
-
-        </div>
-      </Router>
-    </>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Ruta predeterminada */}
+          <Route path="/" element={<PrincipalPage />} />
+          <Route path="/PrincipalPage" element={<PrincipalPage />} />
+          <Route path="/login" element={<Login />} />
+          
+          {/* Rutas protegidas para administradores */}
+          <Route element={<ProtectedRoute_admin />}>
+            <Route path='/Dashboard' element={<Dashboard />} /> {/* HomeAdmin */}
+            <Route path='/Bandeja' element={<Bandeja />} />
+            <Route path='/Registros' element={<Registros />} />
+            <Route path='/Consulta' element={<Consultas />} />
+          </Route>
+          
+          {/* Rutas protegidas para clientes */}
+          <Route element={<ProtectedRoute_client />}>
+            {/* Define client protected routes here */}
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
