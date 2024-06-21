@@ -101,7 +101,7 @@ const PrincipalPage = () => {
         <a href="#opinion" className="hover:text-blue-600">Opiniones</a>
       </nav>
       <div className="hidden md:flex items-center space-x-2">
-        <button className="text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full w-36 h-12">Empezar</button>
+        <Link to="/login" className="text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full w-36 h-12">Empezar</Link>
       </div>
       <div className="md:hidden flex items-center">
         <button onClick={toggleMenu} className="text-black">
@@ -118,7 +118,7 @@ const PrincipalPage = () => {
         <a href="#personal" className="block py-2 hover:text-blue-600">Personal</a>
         <a href="#buzon" className="block py-2 hover:text-blue-600">Buzon</a>
         <a href="#opinion" className="block py-2 hover:text-blue-600">Opiniones</a>
-        <button  className="mt-4 w-full text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full h-12">Empezar</button>
+        <Link to="/login" className="text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full w-36 h-12">Empezar</Link>
       </nav>
     )}
     <div id='home'>
@@ -184,7 +184,7 @@ const PrincipalPage = () => {
         ></textarea>
       </div>
       <div className="flex items-center justify-between">
-      <Link to="/login" className="text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full w-36 h-12">Empezar</Link>
+      <button className="text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full w-36 h-12">Empezar</button>
       </div>
     </form>
 

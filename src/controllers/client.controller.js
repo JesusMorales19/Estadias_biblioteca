@@ -3,7 +3,7 @@ import { getToken, getTokenData } from "../config/jwt.config.js";
 
 export const registerClient = async (req, res) => {
     console.log(req.body);
-    const {username, firstName, lastName, address, phoneNumber, status, old} = req.body;
+    const {username, firstName, lastName, address, phoneNumber, status, age} = req.body;
     try {
         const existingUser = await User.findOne({ username });
 
@@ -17,14 +17,13 @@ export const registerClient = async (req, res) => {
             address, 
             phoneNumber, 
             status,
-            old
+            age
         });
 
         const saveClient = await newClient.save(); 
         const token = getToken({ username: username });
         res.send(saveClient);
-        console.log("Hola");
-        res.send(token);
+        console.log(token)
     } catch (error) {
         res.status(500).json({error: error.message});
     };
@@ -78,7 +77,7 @@ export const recoverClient = async (req, res) => {
 
 export const updateClient = async (req, res) => {
     const { code } =  req.params;
-    const { address, phoneNumber, old } = req.body;
+    const { address, phoneNumber, age } = req.body;
     try {
         const existingClient = await Client.findOne({ username: code });
         if(!existingClient){
@@ -86,7 +85,7 @@ export const updateClient = async (req, res) => {
         }
         existingClient.address = address;
         existingClient.phoneNumber = phoneNumber;
-        existingClient.old = old;
+        existingClient.age = age;
         const updatedClient = await existingClient.save();
         res.send(updatedClient);
     } catch (error) {
@@ -140,3 +139,29 @@ export const getClient = async (req, res) => {
         res.status(500).send("Error getting Clients info");
     }
 }
+
+export const getUsername = async (req, res) => {
+    const { code } = req.params;
+    try {
+        const existingClient = await Client.findOne({ username: code });
+        if(!existingClient){
+            return res.status(404).send("User not found");
+        }
+        const username = existingClient.username;
+        return res.json({ message: "Acceso Permitido", username });
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}
+
+
+export const getAllClient = async (req, res) => {
+  try {
+    const clients = await Client.find();
+    console.log(clients);
+    res.send(clients);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al obtener Client");
+}
+};

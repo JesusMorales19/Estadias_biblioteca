@@ -27,7 +27,7 @@ const clientSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
-    old: {
+    age: {
         type: Number,
         required: true,
     }

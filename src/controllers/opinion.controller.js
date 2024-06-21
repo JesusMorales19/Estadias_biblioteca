@@ -15,3 +15,14 @@ export const registerOpinion = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+export const getAllOpinios = async (req, res) => {
+  try {
+    const opinions = await Opinions.find();
+    console.log(opinions);
+    res.send(opinions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al obtener Opinions");
+  }
+};

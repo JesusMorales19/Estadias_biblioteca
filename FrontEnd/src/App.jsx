@@ -22,7 +22,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           
           <Route element={<ProtectedRoute_admin />}>
-            <Route path='/Dashboard' element={<Dashboard />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
             <Route path='/Bandeja' element={<Bandeja />} />
             <Route path='/Registros' element={<Registros />} />
             <Route path='/Consulta' element={<Consultas />} />

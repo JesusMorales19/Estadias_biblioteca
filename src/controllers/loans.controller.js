@@ -97,6 +97,10 @@ export const registerLoans = async (req, res) => {
             });
 
             await lossBook.save();
+            
+            //Cambiar el estado del usuario a false por perder libro
+            client.status = false;
+            await client.save();
 
             // Eliminar el préstamo de la tabla de préstamos (Loans)
             await Loans.findOneAndDelete({ idLoan });
@@ -165,3 +169,13 @@ export const returnLoan = async (req, res) => {
     }
 };
 
+export const getAllLoans = async (req, res) => {
+  try {
+    const loans = await Loans.find();
+    console.log(loans);
+    res.send(loans);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al obtener Loans");
+  }
+};
