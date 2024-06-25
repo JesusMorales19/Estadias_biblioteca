@@ -1,37 +1,41 @@
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
-// eslint-disable-next-line no-unused-vars
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './Pages/Login';
-import Consultas from "./Pages/Admin/consultas";
-import Bandeja from "./Pages/Admin/Bandeja";
-import Dashboard from "./Pages/Admin/HomeAdmin";
-import Registros from "./Pages/Admin/registro/estilo_registro";
-import ProtectedRoute_admin from "./protecterRoute_admin";
-import PrincipalPage from "./Pages/PrincipalPage";
-import { AuthProvider } from './context/authContext';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import Login from './Pages/Login.jsx';
+import Consultas from "./Pages/Admin/consultas.jsx";
+import Bandeja from "./Pages/Admin/Bandeja.jsx";
+import Dashboard from "./Pages/Admin/HomeAdmin.jsx";
+import Registros from "./Pages/Admin/registro/estilo_registro.jsx";
+import ProtectedRoute_admin from "./protecterRoute_admin.jsx";
+import PrincipalPage from "./Pages/PrincipalPage.jsx";
+import { CheckScreen } from './components/checkPage.jsx';
+import { AuthProvider } from './context/AuthContext1.jsx';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import SesionRoute from './components/SesionRoute.jsx';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<PrincipalPage />} />
-          <Route path="/PrincipalPage" element={<PrincipalPage />} />
-          {/* Enlace para dirigirse a la página de inicio de sesión */}
-          <Route path="/login" element={<Login />} />
-          
-          <Route element={<ProtectedRoute_admin />}>
-            <Route path="/Dashboard" element={<Dashboard />} />
-            <Route path='/Bandeja' element={<Bandeja />} />
-            <Route path='/Registros' element={<Registros />} />
-            <Route path='/Consulta' element={<Consultas />} />
-          </Route>
-          
-          {/* Rutas protegidas para clientes */}
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<PrincipalPage />} />
+            <Route path="/PrincipalPage" element={<PrincipalPage />} />
+            <Route path="/login" element={
+                    <Login />  
+            } />
+            <Route path="/verificate" element={<CheckScreen />} />
+            
+              <Route path="/Dashboard" element={<Dashboard />} />
+              <Route path='/Bandeja' element={<Bandeja />} />
+              <Route path='/Registros' element={<Registros />} />
+              <Route path='/Consulta' element={<Consultas />} />
+            <Route path="/verifyed" element={<CheckScreen />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 

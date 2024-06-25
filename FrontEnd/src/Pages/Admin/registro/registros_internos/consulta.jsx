@@ -9,28 +9,32 @@ const Cons = () => {
       <form>
         
         <div className="mb-4">
-          <label className="block mb-1">Nombre</label>
+          <label className="block mb-1">Name:</label>
           <input type="text" className="w-full p-2 border rounded" />
         </div>
         <div className="mb-4">
-          <label className="block mb-1">Apellido</label>
+          <label className="block mb-1">LastName:</label>
           <input type="text" className="w-full p-2 border rounded" />
         </div>
         <div className="mb-4">
-          <label className="block mb-1">Edad</label>
+          <label className="block mb-1">Gender:</label>
           <input type="text" className="w-full p-2 border rounded" />
         </div>
         <div className="mb-4">
-          <label className="block mb-1">Titulo de libro</label>
+          <label className="block mb-1">Age:</label>
           <input type="text" className="w-full p-2 border rounded" />
         </div>
         <div className="mb-4">
-          <label className="block mb-1">ISBN</label>
+          <label className="block mb-1">ISBN:</label>
           <input type="text" className="w-full p-2 border rounded" />
         </div>
        
         <div className="mb-4">
-          <label className="block mb-1">Autor del libro</label>
+          <label className="block mb-1">Tile:</label>
+          <input type="text" className="w-full p-2 border rounded" />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-1">Author:</label>
           <input type="text" className="w-full p-2 border rounded" />
         </div>
        

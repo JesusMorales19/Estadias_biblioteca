@@ -14,18 +14,20 @@ router.delete("deleteF/user/:code", authMiddleware, UserControllers.deleteUserF)
 //Books Routes
 router.post("/register/book", BookControllers.registerBook);
 router.put("/delete/book/:code", BookControllers.deleteBook);
-router.put("/recover/book/:code", BookControllers.recoverBook);
-router.delete("/deleteF/book/:code", BookControllers.deleteBookF);
-router.get("/getAll/book", BookControllers.getAllBooks);
+router.put("/recover/book/:code", authMiddleware, BookControllers.recoverBook);
+router.delete("/deleteF/book/:code", authMiddleware, BookControllers.deleteBookF);
+router.get("/getAll/book", authMiddleware, BookControllers.getAllBooks);
+router.get("/getC/book/:category", BookControllers.getBooksByCategory);
 
 //Clients Routes
 router.post("/register/client", ClientControllers.registerClient);
 router.put("/delete/client/:code", ClientControllers.deleteClient);
-router.put("/update/client/:code", ClientControllers.updateClient);
-router.put("/recover/client/:code", ClientControllers.recoverClient);
-router.delete("/deleteF/client/:code", ClientControllers.deleteClientF)
-router.get("/get/client/:code", ClientControllers.getClient);
+router.put("/update/client/:code", authMiddleware, ClientControllers.updateClient);
+router.put("/recover/client/:code", authMiddleware, ClientControllers.recoverClient);
+router.delete("/deleteF/client/:code", authMiddleware, ClientControllers.deleteClientF)
+router.get("/get/client/:code", authMiddleware, ClientControllers.getClient);
 router.get("/getAll/client", ClientControllers.getAllClient);
+router.get('/verify/user/:token', ClientControllers.verifyAccount);
 
 //Donation Routes
 router.post("/addBook/donation/:ISBN", DonationControllers.altaLibroDonado);

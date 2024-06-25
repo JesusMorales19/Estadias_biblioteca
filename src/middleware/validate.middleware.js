@@ -11,7 +11,7 @@ const authMiddleware = (req, res, next) => {
     }
     try {
         //Verficar el Token 
-        const decoded = jwt.verify(token, 'bXfZJKcD1PwsqLhntEA7m4eV9io6g3fp');
+        const decoded = jwt.verify(token, 'PFfZJKcD1PwsqLhntEA7m4eV9io6g3fy');
 
         //Agregar al usuario desde el token verificado 
         req.user = decoded;

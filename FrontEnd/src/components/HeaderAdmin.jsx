@@ -2,12 +2,12 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/authContext'; // Import the authentication context
+import { useAuth } from '../context/AuthContext1.jsx'; // Import the authentication context
 import logo from '../assets/logo_jaz.png';
 
 const HeaderAdmin = () => {
   // eslint-disable-next-line no-unused-vars
-  const { logout, user } = useAuth(); // Destructure logout and user from context
+  const { logout } = useAuth(); // Destructure logout and user from context
   const [theme, setTheme] = useState(() => {
     if (window.matchMedia('(prefers-color-scheme: white)').matches) {
       return 'dark';
@@ -42,13 +42,13 @@ const HeaderAdmin = () => {
       <div className="flex justify-between items-center w-full">
         <img src={logo} alt="Logo" className="h-24 py-5" />
         <nav className="hidden md:flex space-x-10 text-black text-xl">
-          <Link to="/" className="hover:text-blue-600 text-center font-serif">
+          <Link to="/Dashboard" className="hover:text-blue-600 text-center font-serif">
             Home
           </Link>
-          <Link to="/bandeja" className="hover:text-blue-600 text-center font-serif">
+          <Link to="/Bandeja" className="hover:text-blue-600 text-center font-serif">
             Bandeja
           </Link>
-          <Link to="/registros" className="hover:text-blue-600 text-center font-serif">
+          <Link to="/Registros" className="hover:text-blue-600 text-center font-serif">
             Registros
           </Link>
           <Link to="/libros" className="hover:text-blue-600 text-center font-serif">

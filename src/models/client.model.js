@@ -7,6 +7,12 @@ const clientSchema = new mongoose.Schema({
         trim: true,
         unique: true,
     },
+    email:{
+        type: String,
+        required:true,
+        unique: true,
+        trim: true
+    },
     firstName: {
         type: String,
         required: String,
@@ -30,6 +36,10 @@ const clientSchema = new mongoose.Schema({
     age: {
         type: Number,
         required: true,
+    },
+    verify: {
+        type:Boolean,
+        default: false,
     }
 });
 

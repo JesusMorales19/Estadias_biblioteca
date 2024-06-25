@@ -1,10 +1,14 @@
 import mongoose from "mongoose";
+import AutoIncrementFactory from 'mongoose-sequence';
+
+const AutoIncrement = AutoIncrementFactory(mongoose);
 
 const loansSchema = new mongoose.Schema({
     idLoan: {
         type: Number,
         required: true,
         unique: true,
+        default: 0
     },
     ISBN: {
         type: Number,
@@ -43,5 +47,8 @@ const loansSchema = new mongoose.Schema({
         required: true,
     }
 });
+
+loansSchema.plugin(AutoIncrement, { inc_field:
+    'idLoan' });
 
 export default mongoose.model("Loans", loansSchema);

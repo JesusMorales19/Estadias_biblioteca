@@ -6,7 +6,7 @@ export const useLogin = async (data) => {
         return res;
     } catch (error) {
         if( error.response && error.response.status === 401 ) {
-            throw new Error("Invalid credencials");
+            throw new Error("Invalid credentials");
         }else {
             throw new Error("Something went wrong");
         }

@@ -18,7 +18,8 @@ import paty from "../assets/paty.jpg";
 import ade from "../assets/libro_adel.jpg";
 import reb from "../assets/libro_reb.jpg";
 import Footer from "../components/footer.jsx";
-import Login from "../Pages/Login.jsx";
+import { Button } from '@nextui-org/react';
+import { useNavigate } from 'react-router-dom';
 
 const profiles = [
 
@@ -59,6 +60,8 @@ const profiles = [
 const PrincipalPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
 
+  const navigate = useNavigate();
+
   const profilesPerPage = 3;
   const totalPages = Math.ceil(profiles.length / profilesPerPage);
 
@@ -89,6 +92,10 @@ const PrincipalPage = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <div className="bg-gray-50 p-4 dark:bg-neutral-900 min-h-screen relative">
     {/* Header */}
@@ -101,7 +108,7 @@ const PrincipalPage = () => {
         <a href="#opinion" className="hover:text-blue-600">Opiniones</a>
       </nav>
       <div className="hidden md:flex items-center space-x-2">
-        <Link to="/login" className="text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full w-36 h-12">Empezar</Link>
+        <Button className="text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full w-36 h-12" onClick={handleLogin} >Empezar</Button>
       </div>
       <div className="md:hidden flex items-center">
         <button onClick={toggleMenu} className="text-black">
@@ -118,7 +125,7 @@ const PrincipalPage = () => {
         <a href="#personal" className="block py-2 hover:text-blue-600">Personal</a>
         <a href="#buzon" className="block py-2 hover:text-blue-600">Buzon</a>
         <a href="#opinion" className="block py-2 hover:text-blue-600">Opiniones</a>
-        <Link to="/login" className="text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full w-36 h-12">Empezar</Link>
+        <Button onClick={handleLogin} className="text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full w-36 h-12">Empezar</Button>
       </nav>
     )}
     <div id='home'>
