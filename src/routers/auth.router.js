@@ -35,12 +35,13 @@ router.get("/getAllBook/donation", DonationControllers.getAllDonationBooks);
 
 //Loss Routes
 router.post("/recover/loss/:idLoan", LossControllers.recoverLostBook);
-router.get("/getAllBook/loss", LossControllers.getAllLoss);
+router.get("/getAllBook/loss", authMiddleware, LossControllers.getAllLoss);
+router.delete("/deleteBook/loss/:idLoan", LossControllers.deleteLostBook);
 
 //Loans Routes
-router.post("/register/loan", LoanControllers.registerLoans);
+router.post("/register/loan", authMiddleware, LoanControllers.registerLoans);
 router.post("/return/loan/:idLoan", LoanControllers.returnLoan);
-router.get("/getAll/loan", LoanControllers.getAllLoans);
+router.get("/getAll/loan", authMiddleware, LoanControllers.getAllLoans);
 
 //Opinions Routes
 router.post("/register/opinion", OpinionControllers.registerOpinion);
@@ -48,6 +49,7 @@ router.get("/getAll/opinion", OpinionControllers.getAllOpinios);
 
 //Consults Routes
 router.post("/register/consult", ConsultControllers.registerConsult);
+router.get('/statistics', ConsultControllers.getStatistics);
 
 //Categorys Routes
 router.post("/register/category", CategoryControllers.registerCategory);

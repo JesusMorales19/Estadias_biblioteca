@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useVerifyToken, useVerifyUsername } from "../../hooks/client.hook";
+import { useVerifyToken, useVerifyUsername } from "../hooks/client.hook";
 const AuthContext = React.createContext();
 
 

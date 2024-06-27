@@ -51,7 +51,7 @@ const HeaderAdmin = () => {
           <Link to="/Registros" className="hover:text-blue-600 text-center font-serif">
             Registros
           </Link>
-          <Link to="/libros" className="hover:text-blue-600 text-center font-serif">
+          <Link to="/Consulta" className="hover:text-blue-600 text-center font-serif">
             Libros
           </Link>
           <button onClick={handleLogout} className="hover:text-blue-600 text-center font-serif">

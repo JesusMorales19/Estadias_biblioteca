@@ -1,11 +1,10 @@
 import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import Login from './Pages/Login.jsx';
-import Consultas from "./Pages/Admin/consultas.jsx";
+import Consultas from './Pages/Admin/Consultas/Consultas.jsx';
 import Bandeja from "./Pages/Admin/Bandeja.jsx";
 import Dashboard from "./Pages/Admin/HomeAdmin.jsx";
 import Registros from "./Pages/Admin/registro/estilo_registro.jsx";
-import ProtectedRoute_admin from "./protecterRoute_admin.jsx";
 import PrincipalPage from "./Pages/PrincipalPage.jsx";
 import { CheckScreen } from './components/checkPage.jsx';
 import { AuthProvider } from './context/AuthContext1.jsx';

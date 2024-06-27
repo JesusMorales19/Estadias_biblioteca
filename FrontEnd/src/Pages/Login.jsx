@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from "../context/AuthContext1.jsx";
-import { useLogin } from "../../hooks/user.hook.js";
+import { useLogin } from "../hooks/user.hook.js";
 import { IoMailSharp, IoLockClosed } from "react-icons/io5";
 import { GoEye, GoEyeClosed } from 'react-icons/go'; // Asegúrate de importar estos íconos
 import { useForm } from "react-hook-form";

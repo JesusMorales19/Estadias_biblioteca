@@ -38,6 +38,10 @@ const loansSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    phoneNumber: {
+        type: String,
+        required: true,
+    },
     creatdAt: {
         type: Date,
         default: Date.now,

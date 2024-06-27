@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import authRoute from "./routers/auth.router.js";
 import cors from "cors";
+import './utils/cronJobs.js';
 
 const app = express();
 app.use(cors({ origin: '*', optionsSuccessStatus: 200 }));
