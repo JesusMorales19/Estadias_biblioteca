@@ -349,7 +349,7 @@ const DatosIdentificados = () => (
   </View>
   </View>
 );
-
+ 
 
 const UsuariosAtendidos = () => (
   <View style={styles.section}>

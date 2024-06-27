@@ -6,7 +6,7 @@ function Graph() {
     const data = {
         labels: ['2006', '2007', '2008', '2009', '2010', '2011'],
         datasets: [
-          {
+           {
             label: 'Evolución del Programa Propio de Investigación',
             data: [1.03, 1.11, 1.22, 1.29, 1.38, 1.34],
             backgroundColor: [

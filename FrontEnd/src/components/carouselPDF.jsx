@@ -21,7 +21,7 @@ const CarouselDefault = () => {
     const newIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
   };
-
+ 
   const goToSlide = (index) => {
     setCurrentIndex(index);
   };
