@@ -93,7 +93,11 @@ const HeaderAdmin = () => {
             Registros
           </Link>
           <Link to="/Consulta" className="hover:text-blue-600 text-center font-serif">
+<<<<<<< HEAD
             Consultas
+=======
+            Libros
+>>>>>>> 889055959f295475d926a84bd7bd0d1721c29483
           </Link>
         </nav>
         <div className="flex items-center space-x-2">

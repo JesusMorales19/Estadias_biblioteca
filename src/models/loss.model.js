@@ -36,6 +36,10 @@ const LossBooksSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    phoneNumber: {
+        type: String,
+        required: true,
+    },
     returnDate: {
         type: Date,
         default: Date.now,

@@ -26,6 +26,14 @@ const consultSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    education:{
+        type: String,
+        required:true,
+    },
+    occupation:{
+        type: String,
+        required: true,
+    },
     ISBN: {
         type: Number,
         required: true,
