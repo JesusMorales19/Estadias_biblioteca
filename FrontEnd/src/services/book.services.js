@@ -6,3 +6,4 @@ export const registerBooks = async (book, token) => {
     return axios.post(`${URL_API}/register/book`, book, { headers: { Authorization: token }
     });
 }
+

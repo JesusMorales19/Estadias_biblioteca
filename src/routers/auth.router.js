@@ -12,7 +12,7 @@ router.put("/delete/user/:code", authMiddleware, UserControllers.deleteUser);
 router.delete("deleteF/user/:code", authMiddleware, UserControllers.deleteUserF)
 
 //Books Routes
-router.post("/register/book", BookControllers.registerBook);
+router.post("/register/book", authMiddleware, BookControllers.registerBook);
 router.put("/delete/book/:code", BookControllers.deleteBook);
 router.put("/recover/book/:code", authMiddleware, BookControllers.recoverBook);
 router.delete("/deleteF/book/:code", authMiddleware, BookControllers.deleteBookF);
@@ -31,7 +31,7 @@ router.get('/verify/user/:token', ClientControllers.verifyAccount);
 
 //Donation Routes
 router.post("/addBook/donation/:ISBN", DonationControllers.altaLibroDonado);
-router.get("/getAllBook/donation", DonationControllers.getAllDonationBooks);
+router.get("/getAllBook/donation", authMiddleware, DonationControllers.getAllDonationBooks);
 
 //Loss Routes
 router.post("/recover/loss/:idLoan", LossControllers.recoverLostBook);

@@ -26,8 +26,7 @@ export const altaLibroDonado = async (req, res) => {
             yearPublication: donation.yearPublication,
             copies: donation.copies,
             category: donation.category,
-            donation: donation.tipo_donacion,
-            description: donation.description,
+            donation: donation.typeDonation,
             status: true, // Cambiar el estado a true para dar de alta el libro
         });
 
@@ -67,5 +66,5 @@ export const getAllDonationBooks = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Error al obtener Books Doantions");
-  }
+}
 };

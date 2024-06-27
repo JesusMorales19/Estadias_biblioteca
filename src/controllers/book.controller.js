@@ -1,89 +1,86 @@
 import {Books, Donations, Categorys} from "../models/models.js";
 
-
 export const registerBook = async (req, res) => {
-    const { ISBN, title, author, publisher, yearPublication, copies, category, donation, description, status } = req.body;
-
+    const { ISBN, title, author, publisher, yearPublication, copies, category, donation, status } = req.body;
+  
     try {
-        // Verificar si la categoría existe
-        const existingCategory = await Categorys.findOne({ Category: category });
-        if (!existingCategory) {
-            return res.status(400).json({ error: "La categoría no existe." });
-        }
-
-        // Verificar si la donación es del gobierno o ciudadano
-        if (donation === 'Gobierno' || donation === 'Ciudadano') {
-            // Crear una nueva entrada en la tabla de donaciones
-            const newDonation = new Donations({
-                typeDonation: donation,
-                ISBN,
-                title,
-                author,
-                publisher,
-                yearPublication,
-                copies,
-                category,
-                description,
-                status: false, // Estado en false para donaciones
-            });
-
-            const savedDonation = await newDonation.save();
-
-            // Construir el objeto de respuesta
-            const response = {
-                tipo_donacion: savedDonation.tipo_donacion,
-                ISBN: savedDonation.ISBN,
-                title: savedDonation.title,
-                author: savedDonation.author,
-                publisher: savedDonation.publisher,
-                yearPublication: savedDonation.yearPublication,
-                copies: savedDonation.copies,
-                category: savedDonation.category,
-                description: savedDonation.description,
-                status: savedDonation.status,
-            };
-
-            // Enviar la respuesta al cliente
-            res.status(200).json(response);
-        } else {
-            // Crear una nueva entrada en la tabla de libros
-            const newBook = new Books({
-                ISBN,
-                title,
-                author,
-                publisher,
-                yearPublication,
-                copies,
-                category,
-                donation,
-                description,
-                status,
-            });
-
-            const savedBook = await newBook.save();
-
-            // Construir el objeto de respuesta
-            const response = {
-                ISBN: savedBook.ISBN,
-                title: savedBook.title,
-                author: savedBook.author,
-                publisher: savedBook.publisher,
-                yearPublication: savedBook.yearPublication,
-                copies: savedBook.copies,
-                category: savedBook.category,
-                donation: savedBook.donation,
-                description: savedBook.description,
-                status: savedBook.status,
-            };
-
-            // Enviar la respuesta al cliente
-            res.status(200).json(response);
-        }
+      // Verificar si la categoría existe por su nombre
+      const existingCategory = await Categorys.findOne({ nameCategory: category });
+      if (!existingCategory) {
+        return res.status(400).json({ error: "La categoría no existe." });
+      }
+  
+      const categoryID = existingCategory.Category; // Obtener el ID de la categoría
+  
+      // Verificar si la donación es del gobierno o ciudadano
+      if (donation === 'Gobierno' || donation === 'Ciudadano') {
+        // Crear una nueva entrada en la tabla de donaciones
+        const newDonation = new Donations({
+          typeDonation: donation,
+          ISBN,
+          title,
+          author,
+          publisher,
+          yearPublication,
+          copies,
+          category: categoryID, // Utilizar el ID de la categoría
+          status: false, // Estado en false para donaciones
+        });
+  
+        const savedDonation = await newDonation.save();
+  
+        // Construir el objeto de respuesta
+        const response = {
+          tipo_donacion: savedDonation.typeDonation,
+          ISBN: savedDonation.ISBN,
+          title: savedDonation.title,
+          author: savedDonation.author,
+          publisher: savedDonation.publisher,
+          yearPublication: savedDonation.yearPublication,
+          copies: savedDonation.copies,
+          category: savedDonation.category,
+          status: savedDonation.status,
+        };
+  
+        // Enviar la respuesta al cliente
+        res.status(200).json(response);
+      } else {
+        // Crear una nueva entrada en la tabla de libros
+        const newBook = new Books({
+          ISBN,
+          title,
+          author,
+          publisher,
+          yearPublication,
+          copies,
+          category: categoryID, // Utilizar el ID de la categoría
+          donation: 'Ninguna',
+          status: true,
+        });
+  
+        const savedBook = await newBook.save();
+  
+        // Construir el objeto de respuesta
+        const response = {
+          ISBN: savedBook.ISBN,
+          title: savedBook.title,
+          author: savedBook.author,
+          publisher: savedBook.publisher,
+          yearPublication: savedBook.yearPublication,
+          copies: savedBook.copies,
+          category: savedBook.category,
+          donation: savedBook.donation,
+          status: savedBook.status,
+        };
+  
+        // Enviar la respuesta al cliente
+        res.status(200).json(response);
+      }
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
-};
-
+  };
+  
 export const deleteBook = async (req, res) => {
     try {
         const { code } = req.params;

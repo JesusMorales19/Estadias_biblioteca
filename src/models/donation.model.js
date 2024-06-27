@@ -44,10 +44,6 @@ const donationSchema = new mongoose.Schema({
         type: Number, 
         required: true 
     },
-    description: { 
-        type: String, 
-        required: true 
-    },
     status: { 
         type: Boolean, 
         required: true, default: false 

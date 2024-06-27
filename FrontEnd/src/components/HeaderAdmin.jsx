@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext1.jsx';
 import logo from '../assets/logo_jaz.png';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
 import { IoLogOut, IoPencilOutline,   } from 'react-icons/io5';
 
