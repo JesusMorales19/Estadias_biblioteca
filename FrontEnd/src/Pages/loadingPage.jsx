@@ -1,11 +1,14 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@nextui-org/react";
 import { BiblioIcon } from "../utils/BiblioIcon.jsx";
 
+// eslint-disable-next-line react/prop-types
 export const LoadingPage = ({ label }) => {
     const navigate = useNavigate();
 
+    // eslint-disable-next-line no-unused-vars
     const handleHome = () => {
         navigate("/");
     };

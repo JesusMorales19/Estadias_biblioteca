@@ -1,13 +1,16 @@
-// src/components/HeaderAdmin.js
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext1.jsx'; // Import the authentication context
+import { useAuth } from '../context/AuthContext1.jsx';
 import logo from '../assets/logo_jaz.png';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { IoLogOut, IoPencilOutline,   } from 'react-icons/io5';
+
+const MySwal = withReactContent(Swal);
 
 const HeaderAdmin = () => {
-  // eslint-disable-next-line no-unused-vars
-  const { logout } = useAuth(); // Destructure logout and user from context
+  const { logout } = useAuth();
   const [theme, setTheme] = useState(() => {
     if (window.matchMedia('(prefers-color-scheme: white)').matches) {
       return 'dark';
@@ -32,9 +35,47 @@ const HeaderAdmin = () => {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-
   const handleLogout = () => {
-    logout();
+    Swal.fire({
+      title: 'Seguro de salir?',
+      text: "Estás a punto de cerrar sesión",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+      }
+    });
+  };
+
+  const handlePerfil = () => {
+    MySwal.fire({
+      title: 'User Information',
+      html: (
+        <div>
+          <div className="relative flex flex-col items-center bg-white p-4 rounded-md shadow-md">
+            <div className="flex flex-col items-center">
+              <div className="rounded-full h-24 w-24 border-2 border-gray-300 mb-4"></div>
+              <p>Nombre: John Doe</p>
+              <p>Apellido: Doe</p>
+              <p>Cel: 123-456-7890</p>
+              <p>Dirección: 123 Main St</p>
+            </div>
+            <div className="flex mt-4 space-x-4">
+              <button className="bg-blue-500 text-white px-4 py-2 rounded"> <IoPencilOutline/></button>
+              <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={() => handleLogout()}>
+                <IoLogOut/>
+              </button>
+            </div>
+          </div>
+        </div>
+      ),
+      showConfirmButton: false
+    });
   };
 
   return (
@@ -51,18 +92,15 @@ const HeaderAdmin = () => {
           <Link to="/Registros" className="hover:text-blue-600 text-center font-serif">
             Registros
           </Link>
-          <Link to="/libros" className="hover:text-blue-600 text-center font-serif">
-            Libros
+          <Link to="/Consulta" className="hover:text-blue-600 text-center font-serif">
+            Consultas
           </Link>
-          <button onClick={handleLogout} className="hover:text-blue-600 text-center font-serif">
-            Salir
-          </button>
         </nav>
         <div className="flex items-center space-x-2">
           <button className="text-xl text-white" onClick={changeTheme}>
             {theme === 'dark' ? '☀' : '🌙'}
           </button>
-          <button className="text-xl text-white">👤</button>
+          <button onClick={handlePerfil} className="text-xl text-white">👤</button>
         </div>
         <div className="md:hidden flex items-center">
           <button onClick={toggleMenu} className="text-black z-50">
@@ -81,12 +119,9 @@ const HeaderAdmin = () => {
           <Link to="/registros" className="block py-2 hover:text-blue-600">
             Registros
           </Link>
-          <Link to="/libros" className="block py-2 hover:text-blue-600">
-            Libros
+          <Link to="/Consulta" className="block py-2 hover:text-blue-600">
+            Consultas
           </Link>
-          <button onClick={handleLogout} className="block py-2 hover:text-blue-600">
-            Salir
-          </button>
         </nav>
       )}
     </div>

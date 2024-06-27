@@ -1,24 +1,24 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-//import fondo from "../assets/img.png"
+import ChartComponent from './graph'; // Importa tu componente de gráfica
+import PdfComponent from './PDF'; // Importa tu componente de PDF
 
 const CarouselDefault = () => {
-  const images = [
-    'https://via.placeholder.com/800x400?text=Slide+1',
-    'https://via.placeholder.com/800x400?text=Slide+2',
-    'https://via.placeholder.com/800x400?text=Slide+3',
-    'https://via.placeholder.com/800x400?text=Slide+4',
+  const slides = [
+    { type: 'chart', content: <ChartComponent /> },
+    { type: 'pdf', content: <PdfComponent /> },
+    // Puedes agregar más slides aquí según sea necesario
   ];
- 
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
-    const newIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
+    const newIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
     setCurrentIndex(newIndex);
   };
 
   const nextSlide = () => {
-    const newIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
+    const newIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
   };
 
@@ -26,12 +26,23 @@ const CarouselDefault = () => {
     setCurrentIndex(index);
   };
 
+  // Determina el ancho máximo del carousel basado en el contenido actual
+  const getMaxWidth = () => {
+    if (currentIndex >= 0 && currentIndex < slides.length) {
+      const contentWidth = slides[currentIndex].type === 'chart'
+        ? 700 // Ancho estimado para gráfica
+        : 500; // Ancho estimado para PDF u otro contenido
+      return Math.min(contentWidth, window.innerWidth - 40); // Ajusta según el ancho de la ventana
+    }
+    return '100%'; // Valor por defecto
+  };
+
   return (
-    <div className="relative w-full h-64 overflow-hidden">
+    <div className="relative overflow-hidden mx-auto" style={{ maxWidth: getMaxWidth() }}>
       <div className="flex transition-transform ease-in-out duration-500" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-        {images.map((image, index) => (
+        {slides.map((slide, index) => (
           <div key={index} className="w-full flex-shrink-0">
-            <img src={image} alt={`Slide ${index}`} className="w-full h-64 object-cover" />
+            {slide.content}
           </div>
         ))}
       </div>
@@ -42,7 +53,7 @@ const CarouselDefault = () => {
         &#10095;
       </button>
       <div className="absolute bottom-0 left-0 right-0 flex justify-center space-x-2 p-2">
-        {images.map((_, index) => (
+        {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}

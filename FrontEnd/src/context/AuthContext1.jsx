@@ -11,6 +11,7 @@ export const useAuth = () => {
   return context;
 }; 
 
+// eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -23,7 +24,9 @@ const AuthProvider = ({ children }) => {
         // Verifica si hay un token y un nombre de usuario en el localStorage
         if (token && username) {
           await Promise.all([
+            // eslint-disable-next-line react-hooks/rules-of-hooks
             useVerifyToken(), // Verifica si el token es válido
+            // eslint-disable-next-line react-hooks/rules-of-hooks
             useVerifyUsername(), // Verifica si el nombre de usuario es válido
           ]);
           setIsAuthenticated(true); // Si no hay excepción, ambos son válidos y el usuario está autenticado
@@ -53,6 +56,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.clear();
     setIsAuthenticated(false);
+    
   };
 
   const login = (token, username) => {

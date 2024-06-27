@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useContext, useState } from 'react';
 import { AuthContext } from "../context/AuthContext1.jsx";
 import { useLogin } from "../../hooks/user.hook.js";
@@ -6,6 +7,8 @@ import { GoEye, GoEyeClosed } from 'react-icons/go'; // Asegúrate de importar e
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { Button, Input } from '@nextui-org/react';
+
+// eslint-disable-next-line no-unused-vars
 import { useMutation, QueryCache } from 'react-query';
 import toast, { Toaster } from "react-hot-toast";
 import { LoadingPage } from './loadingPage.jsx';
@@ -14,6 +17,7 @@ import fondo from '../assets/fondo3.png';
 const Login = () => {
   // Crear una instancia para usarla global
   const auth = useContext(AuthContext);
+  // eslint-disable-next-line no-unused-vars
   const { register, handleSubmit, formState: { errors, isValid } } = useForm({ mode: "onTouched" });
 
   // Definir estados
@@ -45,9 +49,7 @@ const Login = () => {
     loginMutation.mutate(data);
   };
 
-  const handleHome = () => {
-    navigate("/PrincipalPage");
-  };
+
 
   return (
     <>
