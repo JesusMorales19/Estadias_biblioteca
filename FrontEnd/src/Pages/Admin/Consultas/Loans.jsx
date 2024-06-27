@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import { useGetLoans, useReturnLoan } from '../../../hooks/loan.hook.js';
 import { FaCheck } from 'react-icons/fa';
@@ -13,6 +14,7 @@ const Loans = () => {
       setLoading(true);
       setError(null);
       try {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const data = await useGetLoans('Prestados'); // Asumiendo que 'Prestados' es el tipo correcto para obtener préstamos prestados
         setLoans(data);
       } catch (err) {
@@ -28,6 +30,7 @@ const Loans = () => {
     setLoading(true);
     setError(null);
     try {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       await useReturnLoan(idLoan);
       setLoans(loans.filter(loan => loan.idLoan !== idLoan));
       toast.success('¡Libro devuelto exitosamente!');

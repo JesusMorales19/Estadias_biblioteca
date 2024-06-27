@@ -6,7 +6,7 @@ import { HiOutlineDownload, HiOutlinePrinter } from 'react-icons/hi';
 import { FiShare2 } from 'react-icons/fi';
 import { saveAs } from 'file-saver';
 import { PDFDownloadLink, BlobProvider } from '@react-pdf/renderer'; // Importa PDFDownloadLink y BlobProvider desde '@react-pdf/renderer'
-import Invoice from '../Pages/Invoice';
+import Invoice from './Invoice';
 
 const handleShare = async (blob) => {
   await saveAs(blob, `invoice.pdf`);

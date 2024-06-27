@@ -25,7 +25,7 @@ router.put("/delete/client/:code", ClientControllers.deleteClient);
 router.put("/update/client/:code", authMiddleware, ClientControllers.updateClient);
 router.put("/recover/client/:code", authMiddleware, ClientControllers.recoverClient);
 router.delete("/deleteF/client/:code", authMiddleware, ClientControllers.deleteClientF)
-router.get("/get/client/:code", authMiddleware, ClientControllers.getClient);
+router.get("/get/client/:code", ClientControllers.getClient);
 router.get("/getAll/client", ClientControllers.getAllClient);
 router.get('/verify/user/:token', ClientControllers.verifyAccount);
 

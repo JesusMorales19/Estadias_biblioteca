@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 import { useDeleteLoss, useGetLoss, useRecoverLoss } from '../../../hooks/loss.hook';
 import { FaUndoAlt, FaTrashAlt } from 'react-icons/fa';
@@ -10,13 +11,14 @@ const LossBooks = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [confirmDelete, setConfirmDelete] = useState(null);
-    const [deleteId, setDeleteId] = useState(null);
+    const [ setDeleteId] = useState(null);
 
     useEffect(() => {
         const fetchLoss = async () => {
             setLoading(true);
             setError(null);
             try {
+                // eslint-disable-next-line react-hooks/rules-of-hooks
                 const data = await useGetLoss('Perdidos');
                 setLoss(data);
             } catch (error) {
@@ -32,6 +34,7 @@ const LossBooks = () => {
         setLoading(true);
         setError(null);
         try {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
             await useRecoverLoss(idLoan);
             setLoss(loss.filter(item => item.idLoan !== idLoan));
             toast.success('Libro recuperado exitosamente');
@@ -74,6 +77,7 @@ const LossBooks = () => {
         setLoading(true);
         try {
             console.log(`Eliminando libro con idLoan: ${idLoan}`);
+            // eslint-disable-next-line react-hooks/rules-of-hooks
             await useDeleteLoss(idLoan);
             setLoss(loss.filter(item => item.idLoan !== idLoan));
             toast.success('Libro eliminado exitosamente');

@@ -44,3 +44,16 @@ export const useVerifyUsername = async () => {
         }
     }
 }
+
+export const getAllClient = async()=>{
+
+    try {
+        const token = localStorage.getItem("token");
+        const res = await clientService.getAllClient(token);  // Asegúrate de que clientService.getClients() haga la petición correcta
+        return res.data; // Asegúrate de que la estructura de la respuesta sea correcta
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
