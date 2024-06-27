@@ -1,9 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
-import logoImage from '../assets/logoPDF.jpg'; 
+//import logoImage from '../assets/logoPDF.jpg'; 
+import logoImage from '../../../assets/logoPDF.jpg'
 //import People from '../assets/icons8-pa.png';
-import Peopler from '../assets/icons8-pr.png';
+import Peopler from '../../../assets/icons8-pr.png';
 
 // Datos simulados (reemplazar con datos reales si es necesario)
 const data = {
