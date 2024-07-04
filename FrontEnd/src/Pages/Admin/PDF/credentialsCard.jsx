@@ -1,26 +1,17 @@
-// PdfCard.jsx
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
-import { HiOutlinePrinter } from 'react-icons/hi';
+import React, { useEffect, useState } from 'react';
 import { BlobProvider } from '@react-pdf/renderer';
 import Credentials from './Credentials.jsx';
-import { getAllClient } from '../../../hooks/client.hook.js';
+import { HiOutlinePrinter } from 'react-icons/hi';
 
-// eslint-disable-next-line react/prop-types
-const PdfCredentialsCard = ({ title }) => {
+const PdfCredentialsCard = ({ user }) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getAllClient();
-        setUserData(data); // Asegúrate de que `data` tenga las propiedades esperadas (username, firstName, phoneNumber)
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+    setUserData(user);
+  }, [user]);
 
   const styles = {
     container: {
@@ -38,7 +29,7 @@ const PdfCredentialsCard = ({ title }) => {
     btn: {
       borderRadius: '3px',
       border: '1px solid gray',
-      backgroundColor: '#4CAF50', // Color verde
+      backgroundColor: '#4CAF50',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -52,42 +43,21 @@ const PdfCredentialsCard = ({ title }) => {
     },
   };
 
-  // Función para imprimir el PDF
-  const handlePrint = async (blob) => {
-    try {
-      const pdfBlob = new Blob([blob], { type: 'application/pdf' });
-      const url = URL.createObjectURL(pdfBlob);
-      const a = document.createElement('a');
-      a.style.display = 'none';
-      a.href = url;
-      a.download = 'credencial.pdf';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error printing PDF:', error);
-    }
-  };
-
   return (
     <div style={styles.container}>
       <div style={styles.flex}>
-        <span style={styles.bold}>{title}</span>
+        <span style={styles.bold}>Credenciales</span>
       </div>
-
-      <div style={{ ...styles.flex, ...{ justifyContent: 'space-between' } }}>
-        {userData && (
-          <BlobProvider document={<Credentials data={userData} />}>
-            {({ url, blob }) => (
-              <a href={url} target="_blank" style={styles.btn} onClick={() => handlePrint(blob)}>
-                <HiOutlinePrinter size={14} />
-                <span>Imprimir</span>
-              </a>
-            )}
-          </BlobProvider>
-        )}
-      </div>
+      {userData && (
+        <BlobProvider document={<Credentials data={userData} />}>
+          {({ url, blob }) => (
+            <a href={url} target="_blank" style={styles.btn}>
+              <HiOutlinePrinter size={14} />
+              <span>Imprimir</span>
+            </a>
+          )}
+        </BlobProvider>
+      )}
     </div>
   );
 };

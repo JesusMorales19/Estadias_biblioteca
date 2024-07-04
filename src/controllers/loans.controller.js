@@ -18,6 +18,8 @@ export const registerLoans = async (req, res) => {
         }
 
         const activeLoansCount = await Loans.countDocuments({ username, finalDate: { $gte: new Date() } });
+        console.log(`Active loans for ${username}: ${activeLoansCount}`);
+        
         if (activeLoansCount >= 3) {
             return res.status(400).json({ error: "Client has already borrowed the maximum number of books (3)" });
         }
@@ -73,6 +75,7 @@ export const registerLoans = async (req, res) => {
         return res.status(200).json(response);
 
     } catch (error) {
+        console.error("Error registering loan:", error);
         return res.status(500).json({ error: error.message });
     }
 };

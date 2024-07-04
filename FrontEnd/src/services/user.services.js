@@ -9,7 +9,7 @@ export function login(user) {
 export function registerUser(user){
     const newUser = {
         username: user.username,
-        password: user.password.password,
+        password: user.passwords.password,
     };
     return axios.post(`${URL_API}/register/user`, newUser);
 }

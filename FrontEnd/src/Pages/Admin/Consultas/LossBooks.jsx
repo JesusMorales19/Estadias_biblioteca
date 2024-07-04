@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 import { useDeleteLoss, useGetLoss, useRecoverLoss } from '../../../hooks/loss.hook';
-import { FaUndoAlt, FaTrashAlt } from 'react-icons/fa';
+import { FaUndoAlt, FaTrashAlt, FaSearch } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SweetAlert from 'react-bootstrap-sweetalert';
@@ -11,7 +11,10 @@ const LossBooks = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [confirmDelete, setConfirmDelete] = useState(null);
-    const [ setDeleteId] = useState(null);
+    const [deleteId, setDeleteId] = useState(null);
+    const [recoverId, setRecoverId] = useState(null);
+    const [confirmRecover, setConfirmRecover] = useState(null);
+    const [searchText, setSearchText] = useState("");
 
     useEffect(() => {
         const fetchLoss = async () => {
@@ -33,18 +36,61 @@ const LossBooks = () => {
     const handleRecover = async (idLoan) => {
         setLoading(true);
         setError(null);
+
+        console.log(`Intentando devolver libro con idLoan: ${idLoan}`);
+
+        setRecoverId(idLoan);
+        setConfirmRecover(() => (
+            <SweetAlert 
+                warning
+                showCancel
+                confirmBtnText="Confirmar"
+                confirmBtnBsStyle='btn btn-primary btn-ih'
+                cancelBtnBsStyle='btn btn-secondary'
+                title='¿Estas Seguro?'
+                onConfirm={() => confirmRecoverAction(idLoan)}
+                onCancel={cancelRecoverAction}
+                focusCancelBtn
+                customButtons={
+                    <React.Fragment>
+                        <button onClick={() => confirmRecoverAction(idLoan)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Confirmar
+                        </button>
+                        <button onClick={cancelRecoverAction} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2">
+                            Cancelar
+                        </button>
+                    </React.Fragment>
+                }
+                style={{ backgroundColor: 'white', color: 'black' }}
+            >
+                Esta acción devolverá el libro perdido.
+            </SweetAlert>
+        ));
+        setLoading(false);
+    }
+
+    const confirmRecoverAction = async (idLoan) => {
+        setLoading(true);
+
         try {
+            console.log(`Devolviendo libro con idLoan: ${idLoan}`);
             // eslint-disable-next-line react-hooks/rules-of-hooks
             await useRecoverLoss(idLoan);
             setLoss(loss.filter(item => item.idLoan !== idLoan));
-            toast.success('Libro recuperado exitosamente');
+            toast.success('Libro devuelto exitosamente');
         } catch (error) {
             setError(error.message);
             toast.error('Error al intentar recuperar el libro');
         } finally {
             setLoading(false);
+            setConfirmRecover(null);
         }
-    };
+    }
+
+    const cancelRecoverAction = () => {
+        setConfirmRecover(null);
+        setLoading(false);
+    }
 
     const handleDelete = async (idLoan) => {
         setLoading(true);
@@ -60,13 +106,24 @@ const LossBooks = () => {
                 showCancel
                 confirmBtnText="Confirmar"
                 confirmBtnBsStyle="btn btn-primary btn-lh"
-                cancelBtnBsStyle="primary"
+                cancelBtnBsStyle="btn btn-secondary"
                 title="¿Estás seguro?"
                 onConfirm={() => confirmDeleteAction(idLoan)} // Captura el idLoan actual
                 onCancel={cancelDeleteAction}
                 focusCancelBtn
+                customButtons={
+                    <React.Fragment>
+                        <button onClick={() => confirmDeleteAction(idLoan)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            Confirmar
+                        </button>
+                        <button onClick={cancelDeleteAction} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2">
+                            Cancelar
+                        </button>
+                    </React.Fragment>
+                }
+                style={{ backgroundColor: 'white', color: 'black' }}
             >
-                Esta acción eliminará permanentemente el libro. ¿Estás seguro?
+                Esta acción eliminará permanentemente el libro.
             </SweetAlert>
         ));
     
@@ -89,15 +146,36 @@ const LossBooks = () => {
             setConfirmDelete(null);
         }
     };
-    
 
     const cancelDeleteAction = () => {
         setConfirmDelete(null);
         setLoading(false);
     };
 
+    const filteredLoss = loss.filter(item => 
+        (item.title && item.title.toLowerCase().includes(searchText.toLowerCase())) ||
+        (item.username && item.username.toLowerCase().includes(searchText.toLowerCase())) ||
+        (item.firstName && item.firstName.toLowerCase().includes(searchText.toLowerCase())) ||
+        (item.lastName && item.lastName.toLowerCase().includes(searchText.toLowerCase())) ||
+        (item.ISBN && item.ISBN.toLowerCase().includes(searchText.toLowerCase())) ||
+        (item.author && item.author.toLowerCase().includes(searchText.toLowerCase()))
+    );
+
     return (
         <div className="container min-w-full p-4 bg-gradient-to-b border-solid border-2 border-sky-700 rounded-lg overflow-auto">
+            <div className="flex justify-between mb-4 items-center">
+                <h2 className="text-xl font-bold text-gray-800 dark:text-white">Tabla de Libros Perdidos</h2>
+                <div className="relative">
+                    <input 
+                        type="text"
+                        placeholder="Buscar por usuario, nombre o titulo"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        className="p-2 border-b border-black bg-transparent text-gray-700 focus:outline-none dark:text-white"
+                    />
+                    <FaSearch className="absolute right-48 top-3 text-gray-700 dark:text-white" />
+                </div>
+            </div>
             {loading ? (
                 <p>Loading...</p>
             ) : error ? (
@@ -117,7 +195,7 @@ const LossBooks = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {loss.map((item, index) => (
+                        {filteredLoss.map((item, index) => (
                             <tr key={index}>
                                 <td className="border border-gray-200 dark:border-gray-700 p-2">{item.title}</td>
                                 <td className="border border-gray-200 dark:border-gray-700 p-2">{item.username}</td>
@@ -148,6 +226,7 @@ const LossBooks = () => {
                 </table>
             )}
             {confirmDelete}
+            {confirmRecover}
         </div>
     );
 };

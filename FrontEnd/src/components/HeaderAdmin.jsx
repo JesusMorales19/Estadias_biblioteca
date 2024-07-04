@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext1.jsx';
 import logo from '../assets/logo_jaz.png';
 import Swal from 'sweetalert2'
@@ -11,6 +11,7 @@ const MySwal = withReactContent(Swal);
 
 const HeaderAdmin = () => {
   const { logout } = useAuth();
+  const location = useLocation();
   const [theme, setTheme] = useState(() => {
     if (window.matchMedia('(prefers-color-scheme: white)').matches) {
       return 'dark';
@@ -82,21 +83,40 @@ const HeaderAdmin = () => {
     <div className="relative flex flex-col justify-between items-center bg-gradient-to-r from-green-600 via-white to-red-600 p-4 rounded-md shadow-md mb-4">
       <div className="flex justify-between items-center w-full">
         <img src={logo} alt="Logo" className="h-24 py-5" />
-        <nav className="hidden md:flex space-x-10 text-black text-xl">
-          <Link to="/Dashboard" className="hover:text-blue-600 text-center font-serif">
-            Home
-          </Link>
-          <Link to="/Bandeja" className="hover:text-blue-600 text-center font-serif">
-            Bandeja
-          </Link>
-          <Link to="/Registros" className="hover:text-blue-600 text-center font-serif">
-            Registros
-          </Link>
-          <Link to="/Consulta" className="hover:text-blue-600 text-center font-serif">
-            Consultas
-
-          </Link>
-        </nav>
+        <nav className="hidden md:flex space-x-10 text-xl">
+      <Link
+        to="/Dashboard"
+        className={`${
+          location.pathname === '/Dashboard' ? 'text-blue-600' : 'text-black'
+        } hover:text-blue-600 text-center font-serif`}
+      >
+        Home
+      </Link>
+      <Link
+        to="/Bandeja"
+        className={`${
+          location.pathname === '/Bandeja' ? 'text-blue-600' : 'text-black'
+        } hover:text-blue-600 text-center font-serif`}
+      >
+        Bandeja
+      </Link>
+      <Link
+        to="/Registros"
+        className={`${
+          location.pathname === '/Registros' ? 'text-blue-600' : 'text-black'
+        } hover:text-blue-600 text-center font-serif`}
+      >
+        Registros
+      </Link>
+      <Link
+        to="/Consulta"
+        className={`${
+          location.pathname === '/Consulta' ? 'text-blue-600' : 'text-black'
+        } hover:text-blue-600 text-center font-serif`}
+      >
+        Consultas
+      </Link>
+    </nav>
         <div className="flex items-center space-x-2">
           <button className="text-xl text-white" onClick={changeTheme}>
             {theme === 'dark' ? '☀' : '🌙'}
@@ -111,13 +131,13 @@ const HeaderAdmin = () => {
       </div>
       {menuOpen && (
         <nav className="md:hidden bg-gradient-to-r from-green-600 via-white to-red-600 p-4 rounded-md shadow-md w-full mt-4">
-          <Link to="/" className="block py-2 hover:text-blue-600">
+          <Link to="/Dashboard" className="block py-2 hover:text-blue-600">
             Home
           </Link>
-          <Link to="/bandeja" className="block py-2 hover:text-blue-600">
+          <Link to="/Bandeja" className="block py-2 hover:text-blue-600">
             Bandeja
           </Link>
-          <Link to="/registros" className="block py-2 hover:text-blue-600">
+          <Link to="/Registros" className="block py-2 hover:text-blue-600">
             Registros
           </Link>
           <Link to="/Consulta" className="block py-2 hover:text-blue-600">

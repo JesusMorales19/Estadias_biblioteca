@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import logo from "../assets/logo_jaz.png";
 
-const HeaderAdmin = () => {
+const HeaderClient = () => {
   const [theme, setTheme] = useState(() => {
     if (window.matchMedia('(prefers-color-scheme: white)').matches) {
       return "dark";
@@ -62,4 +62,4 @@ const HeaderAdmin = () => {
   );
 };
 
-export default HeaderAdmin;
+export default HeaderClient;

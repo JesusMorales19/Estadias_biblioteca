@@ -18,9 +18,8 @@ export function verifyUsername(username){
     return axios.get(`${URL_API}/verify-username/${username}`)
 }
 
-export function deleteClient(client, token) {
-    console.log(token);
-    return axios.put(`${URL_API}/delete/client/${client}`, {headers: {Authorization: token}})
+export function deleteClient(id) {
+    return axios.put(`${URL_API}/delete/client/${id}`)
 }
 
 export function deleteFClient(client, token) {
@@ -28,8 +27,8 @@ export function deleteFClient(client, token) {
 }
 
 
-export function recoverClient(client, token) {
-    return axios.put(`${URL_API}/recover/client/${client}`, { headers: { Authorization: token}})
+export function recoverClient(id) {
+    return axios.put(`${URL_API}/recover/client/${id}`)
 }
 
 export function getAllClient(){

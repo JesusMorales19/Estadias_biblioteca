@@ -152,3 +152,12 @@ export const getBooksByCategory = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
+
+  export const countBooksActive = async (req, res) => {
+    try {
+        const booksActive = await Books.countDocuments({ status: true }); // Usamos true sin comillas para buscar booleanos
+        res.json({ librosActivos: booksActive }); // Devolvemos un objeto con la propiedad librosActivos
+    } catch (error) {
+        res.status(500).json({ error: error.message }); // Manejo de errores
+    }
+};

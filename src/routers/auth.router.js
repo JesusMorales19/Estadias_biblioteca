@@ -14,16 +14,17 @@ router.delete("deleteF/user/:code", authMiddleware, UserControllers.deleteUserF)
 //Books Routes
 router.post("/register/book", authMiddleware, BookControllers.registerBook);
 router.put("/delete/book/:code", BookControllers.deleteBook);
-router.put("/recover/book/:code", authMiddleware, BookControllers.recoverBook);
-router.delete("/deleteF/book/:code", authMiddleware, BookControllers.deleteBookF);
+router.put("/recover/book/:code",  BookControllers.recoverBook);
+router.delete("/deleteF/book/:code", BookControllers.deleteBookF);
 router.get("/getAll/book", authMiddleware, BookControllers.getAllBooks);
 router.get("/getC/book/:category", BookControllers.getBooksByCategory);
+router.get("/getActive/book", BookControllers.countBooksActive);
 
 //Clients Routes
 router.post("/register/client", ClientControllers.registerClient);
 router.put("/delete/client/:code", ClientControllers.deleteClient);
 router.put("/update/client/:code", authMiddleware, ClientControllers.updateClient);
-router.put("/recover/client/:code", authMiddleware, ClientControllers.recoverClient);
+router.put("/recover/client/:code", ClientControllers.recoverClient);
 router.delete("/deleteF/client/:code", authMiddleware, ClientControllers.deleteClientF)
 router.get("/get/client/:code", ClientControllers.getClient);
 router.get("/getAll/client", ClientControllers.getAllClient);
@@ -37,6 +38,8 @@ router.get("/getAllBook/donation", authMiddleware, DonationControllers.getAllDon
 router.post("/recover/loss/:idLoan", LossControllers.recoverLostBook);
 router.get("/getAllBook/loss", authMiddleware, LossControllers.getAllLoss);
 router.delete("/deleteBook/loss/:idLoan", LossControllers.deleteLostBook);
+router.get("/getLoss/book", LossControllers.countLossBooksActive);
+
 
 //Loans Routes
 router.post("/register/loan", authMiddleware, LoanControllers.registerLoans);
@@ -59,6 +62,7 @@ router.get("/verify-token", authMiddleware, (req, res) => { res.json({ message: 
 
 //verify Username
 router.get("/verify-username/:code", ClientControllers.getUsername);
+
 
 
 

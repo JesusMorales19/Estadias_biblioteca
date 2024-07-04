@@ -2,76 +2,74 @@ import React, { useState, useEffect, useContext } from "react";
 import { useVerifyToken, useVerifyUsername } from "../hooks/client.hook";
 const AuthContext = React.createContext();
 
-
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-      throw new Error("useAuth should be used within an AuthProvider");
-  }
-  return context;
-}; 
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth should be used within an AuthProvider");
+    }
+    return context;
+};
 
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [userRole, setUserRole] = useState(null);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const username = localStorage.getItem("username");
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                const username = localStorage.getItem("username");
 
-        // Verifica si hay un token y un nombre de usuario en el localStorage
-        if (token && username) {
-          await Promise.all([
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            useVerifyToken(), // Verifica si el token es válido
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            useVerifyUsername(), // Verifica si el nombre de usuario es válido
-          ]);
-          setIsAuthenticated(true); // Si no hay excepción, ambos son válidos y el usuario está autenticado
-        } else {
-          setIsAuthenticated(false); // Si no hay token o nombre de usuario, el usuario no está autenticado
-        }
-      } catch (error) {
-        // Si hay una excepción, el token o el nombre de usuario no son válidos o han expirado
-        console.error(error.message); // Maneja el error de acuerdo a tus necesidades
-        setIsAuthenticated(false); // Establece isAuthenticated en false
-      }
+                if (token && username) {
+                    await Promise.all([
+                        useVerifyToken(),
+                        useVerifyUsername(),
+                    ]);
+                    setIsAuthenticated(true);
+                } else {
+                    setIsAuthenticated(false);
+                    setUserRole(null);
+                }
+            } catch (error) {
+                console.error(error.message);
+                setIsAuthenticated(false);
+                setUserRole(null);
+            }
+        };
+
+        checkAuth();
+
+        const handleStorageChange = () => {
+            checkAuth();
+        };
+
+        window.addEventListener("storage", handleStorageChange);
+
+        return () => window.removeEventListener("storage", handleStorageChange);
+    }, []);
+
+    const logout = () => {
+        localStorage.clear();
+        setIsAuthenticated(false);
+        setUserRole(null);
     };
 
-    checkAuth();
-
-    const handleStorageChange = () => {
-      // Cuando haya un cambio en el localStorage, vuelve a verificar la autenticación
-      checkAuth();
+    const login = (token, username, role) => {
+        localStorage.setItem("token", token);
+        localStorage.setItem("username", username);
+        setUserRole(role);
+        console.log(role);
+        setIsAuthenticated(true);
     };
 
-    window.addEventListener("storage", handleStorageChange);
+    const authContextValue = { isAuthenticated, logout, login, userRole };
 
-    // Limpia el event listener cuando el componente se desmonta
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
-
-  const logout = () => {
-    localStorage.clear();
-    setIsAuthenticated(false);
-    
-  };
-
-  const login = (token, username) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("username", username);
-    setIsAuthenticated(true);
-  };
-
-  const authContextValue = { isAuthenticated, logout, login };
-
-  return (
-    <AuthContext.Provider value={authContextValue}>
-      {children}
-    </AuthContext.Provider>
-  );
+    return (
+        <AuthContext.Provider value={authContextValue}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 export { AuthContext, AuthProvider };

@@ -7,6 +7,7 @@ import CarouselDefault from "../components/carousel.jsx";
 import metas from "../assets/metas.png";
 import alcances from "../assets/alcances.png";
 import logros from "../assets/logros.png"; 
+import valores from "../assets/valores.png"
 import presidenteImg from "../assets/hassan.png";
 import escudo from "../assets/escudo.jpg"; 
 import { FaGlobe, FaFacebook, FaPhone, FaEnvelope, FaInstagram } from 'react-icons/fa';
@@ -138,17 +139,17 @@ const PrincipalPage = () => {
   <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:w-2/3 mx-auto">
     <div className="md:col-span-1 flex flex-col items-center">
       <img src={metas} className="w-20 md:w-40 lg:w-40 object-contain" alt="Metas" />
-      <h1 className="text-green-500 font-serif text-xl font-semibold mt-2">Metas</h1>
+      <h1 className="text-green-500 font-serif text-xl font-semibold mt-2">Misión</h1>
       <p className="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </div>
     <div className="md:col-span-1 flex flex-col items-center">
       <img src={alcances} className="w-20 md:w-40 lg:w-40 object-contain" alt="Alcances" />
-      <h1 className="text-blue-500 font-serif text-xl font-semibold mt-2">Alcances</h1>
+      <h1 className="text-blue-500 font-serif text-xl font-semibold mt-2">Visión</h1>
       <p className="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </div>
     <div className="md:col-span-2 flex flex-col items-center">
-      <img src={logros} className="w-20 md:w-40 lg:w-40 object-contain" alt="Logros" />
-      <h1 className="text-yellow-500 font-serif text-xl font-semibold mt-2">Logros</h1>
+      <img src={valores} className="w-20 md:w-40 lg:w-40 object-contain" alt="Logros" />
+      <h1 className="text-yellow-900 font-serif text-xl font-semibold mt-2">Valores</h1>
       <p className="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </div>
   </div>
@@ -215,8 +216,6 @@ const PrincipalPage = () => {
         </div>
         <div className="text-center lg:text-right lg:w-1/3 lg:ml-8 justify-center">
           <h2 className="text-black text-lg font-semibold text-center">¡Hacer mas por la gente!</h2>
-
-          <img src={escudo} alt="Escudo" className="w-32 h-32 mx-auto my-4" />
 
           <img src={logo} alt="Escudo" className="w-50 h-32 mx-auto my-4" />
 

@@ -1,4 +1,4 @@
-import { deleteLoss, getLoss, recoverLoss } from "../services/loss.services";
+import { deleteLoss, getLoss, recoverLoss, getBookLoss } from "../services/loss.services";
 
 export const useGetLoss = async () => { 
     try {
@@ -9,6 +9,16 @@ export const useGetLoss = async () => {
         console.error(error);
         throw error;
     }
+}
+
+export const useGetLossBooks = async () => {
+  try {
+      const res = await getBookLoss()
+      return res.data.librosPerdidos;
+  } catch (error) {
+      console.error(error);
+      throw error;
+  }
 }
 
 export const useRecoverLoss = async (id) => {

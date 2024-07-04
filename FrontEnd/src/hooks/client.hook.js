@@ -1,4 +1,5 @@
 // eslint-disable-next-line no-unused-vars
+import { recoverClient, deleteClient } from "../services/client.services.js";
 import { clientService, userService } from "../services/services.js";
 
 export const getClient = async () => {
@@ -56,4 +57,24 @@ export const getAllClient = async()=>{
         throw error;
     }
 };
+
+export const useRecoverClient = async (id) => {
+    try {
+        const res = await recoverClient(id)
+        return res.data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+export const useDeleteClient = async (id) => {
+    try {
+        const res = await deleteClient(id);
+        return res.data;
+    } catch (error) {
+        console.error("Error Delete Client", error);
+        throw error
+    }
+}
 

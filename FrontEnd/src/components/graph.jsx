@@ -4,11 +4,11 @@ import { Bar } from 'react-chartjs-2';
 
 function Graph() {
     const data = {
-        labels: ['2006', '2007', '2008', '2009', '2010', '2011'],
+        labels: ['Hombre>60', 'Hombre30-59', 'Hombre18-29', 'Hombre13-17', 'Hombre0-13', 'Mujer>60', 'Mujer30-59', 'Mujer18-29', 'Mujer13-17', 'Mujer0-13'],
         datasets: [
            {
-            label: 'Evolución del Programa Propio de Investigación',
-            data: [1.03, 1.11, 1.22, 1.29, 1.38, 1.34],
+            label: 'Consultas Internas',
+            data: [0, 8, 0, 5, 10, 0, 14, 4, 5, 34],
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -32,7 +32,7 @@ function Graph() {
 
     return (
         <div className="bg-white p-4 rounded-md shadow-md w-full md:w-2/3 dark:bg-neutral-800 mb-4 md:mb-0">
-            <h2 className="text-center text-lg font-bold mb-4 dark:text-white">Evolución del Programa Propio de Investigación</h2>
+            <h2 className="text-center text-lg font-bold mb-4 dark:text-white">Consultas Internas</h2>
             <Bar data={data} />
         </div>
     );

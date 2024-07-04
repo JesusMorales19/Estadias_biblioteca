@@ -114,3 +114,11 @@ export const deleteLostBook = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 };
+export const countLossBooksActive = async (req, res) => {
+    try {
+        const booksLossActive = await lossBooks.countDocuments(); // Usamos true sin comillas para buscar booleanos
+        res.json({ librosPerdidos: booksLossActive }); // Devolvemos un objeto con la propiedad librosActivos
+    } catch (error) {
+        res.status(500).json({ error: error.message }); // Manejo de errores
+    }
+};

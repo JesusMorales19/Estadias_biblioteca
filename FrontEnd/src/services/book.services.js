@@ -7,3 +7,23 @@ export const registerBooks = async (book, token) => {
     });
 }
 
+export const getBooks = async(token) => {
+    return axios.get(`${URL_API}/getAll/book`, { headers: { Authorization: token }})
+}
+
+export const getActiveBooks = async () => {
+    return axios.get(`${URL_API}/getActive/book`)
+}
+
+export const deleteBooks = async (id) => {
+    return axios.put(`${URL_API}/delete/book/${id}`)
+}
+
+export const recoverBook = async (id) => {
+    return axios.put(`${URL_API}/recover/book/${id}`, )
+}
+
+export const deleteFBook = async (id) => {
+    return axios.delete(`${URL_API}/deleteF/book/${id}`)
+}
+
