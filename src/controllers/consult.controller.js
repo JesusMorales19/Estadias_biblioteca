@@ -2,7 +2,7 @@ import { Consults } from "../models/models.js";
 
 export const registerConsult = async (req, res) => {
     console.log(req.body);
-    const {name, lastName, gender, age, education, occupation, ISBN, title, author} = req.body;
+    const {name, lastName, gender, age, education, occupation, title, author} = req.body;
     try {
         const newConsult = new Consults({
             name,
@@ -11,7 +11,6 @@ export const registerConsult = async (req, res) => {
             age,
             education,
             occupation,
-            ISBN,
             title,
             author,
         });

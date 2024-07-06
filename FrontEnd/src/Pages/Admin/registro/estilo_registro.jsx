@@ -9,7 +9,7 @@ import Prestamos from './registros_internos/Prestamos';
 import Consulta from './registros_internos/consulta';
 
 const Registro = () => {
-  const [selectedTab, setSelectedTab] = useState('usuarios');
+  const [selectedTab, setSelectedTab] = useState('libros');
 
   const handleTabChange = (tab) => {
     setSelectedTab(tab);

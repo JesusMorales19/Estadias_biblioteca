@@ -34,10 +34,6 @@ const consultSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    ISBN: {
-        type: Number,
-        required: true,
-    },
     title: {
         type: String,
         required: true,

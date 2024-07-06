@@ -203,7 +203,7 @@ const {
           />
         </div>
         <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded">
-          Registrar
+          {loading ? 'Registrando....' : 'Registrar'}
         </button>
       </form>
     </div>

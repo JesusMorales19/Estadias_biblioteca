@@ -62,7 +62,7 @@ const BookForm = () => {
         <div className="mb-4">
           <label className="block mb-1">ISBN:</label>
           <input
-            type="text"
+            type="number"
             value={ISBN}
             onChange={(e) => setISBN(e.target.value)}
             className="w-full p-2 border rounded"
