@@ -51,7 +51,7 @@ const Login = () => {
             {showLoading && <LoadingPage label="Iniciando Sesion..." />}
             {!showLoading && (
                 <div className="text-white h-[100vh] flex items-center justify-center bg-cover" style={{ backgroundImage: `url(${fondo})` }}>
-                    <div className="bg-slate-800 border border-slate-600 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-lg bg-opacity-20 relative bg-cyan-800 shadow-lg shadow-cyan-500/100">
+                    <div className="bg-slate-800 border border-slate-600 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-lg bg-opacity-20 relative shadow-cyan-500/100">
                         <h1 className="text-4xl font-bold text-center mb-6">INICIAR SESIÓN</h1>
                         <form className="max-w-xl mx-auto" onSubmit={handleSubmit(onSubmit)}>
                             <div className="relative my-4">

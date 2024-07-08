@@ -56,6 +56,7 @@ router.get('/statistics', ConsultControllers.getStatistics);
 
 //Categorys Routes
 router.post("/register/category", CategoryControllers.registerCategory);
+router.get("/getAll/category", CategoryControllers.getAllCategory);
 
 //Verify Token
 router.get("/verify-token", authMiddleware, (req, res) => { res.json({ message: 'Acceso Permitido' })});

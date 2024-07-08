@@ -11,6 +11,8 @@ import { CheckScreen } from './components/checkPage.jsx';
 import { AuthProvider } from './context/AuthContext1.jsx';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import ProtectedRoute from './utils/protected.jsx';
+import SesionRoute from './components/SesionRoute.jsx';
+import CategoryBook from './components/categoryBook.jsx';
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,7 @@ function App() {
                         
                         <Route element={<ProtectedRoute roles={['client']} />}>
                             <Route path='/Usuarios' element={<Usuarios />} />
+                            <Route path="/categoria/:categoryId" element={<CategoryBook />} />
                         </Route>
                         
                         <Route path="/verifyed" element={<CheckScreen />} />
