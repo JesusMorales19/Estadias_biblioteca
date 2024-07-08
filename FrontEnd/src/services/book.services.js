@@ -27,3 +27,6 @@ export const deleteFBook = async (id) => {
     return axios.delete(`${URL_API}/deleteF/book/${id}`)
 }
 
+export const getBooksByCategory = async (id) => {
+    return axios.get(`${URL_API}/getC/book/${id}`);
+}

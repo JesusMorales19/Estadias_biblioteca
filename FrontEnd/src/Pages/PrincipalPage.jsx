@@ -21,6 +21,8 @@ import reb from "../assets/libro_reb.jpg";
 import Footer from "../components/footer.jsx";
 import { Button } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
+import { useRegisterOpinion } from '../hooks/opinion.hook.js';
+import { toast } from 'react-toastify';
 
 const profiles = [
 
@@ -60,6 +62,32 @@ const profiles = [
 
 const PrincipalPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSumbit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const opinion = {
+      name, 
+      email,
+      message,
+    };
+    try {
+      await useRegisterOpinion(opinion);
+      toast.success('Opinion registrada con exito');
+      setName('');
+      setEmail('');
+      setMessage('');
+    } catch (error) {
+      toast.error(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const navigate = useNavigate();
 
@@ -157,16 +185,18 @@ const PrincipalPage = () => {
   {/* Formulario */}
   <div id="buzon" className="relative z-10 mx-auto mt-4 mb-8 w-full md:w-1/3 bg-gray-100 p-8 rounded-3xl shadow-lg">
     <h2 className="text-2xl font-bold mb-4 text-center">Comparte tus opiniones con nosotros</h2>
-    <form>
+    <form onSubmit={handleSumbit}>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
           Nombre
         </label>
         <input
           className="shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="nombre"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           type="text"
           placeholder="Nombre"
+          required
         />
       </div>
       <div className="mb-4">
@@ -175,9 +205,11 @@ const PrincipalPage = () => {
         </label>
         <input
           className="shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="correo"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           type="email"
-          placeholder="Correo"
+          placeholder="Email"
+          required
         />
       </div>
       <div className="mb-6">
@@ -186,13 +218,18 @@ const PrincipalPage = () => {
         </label>
         <textarea
           className="shadow appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="mensaje"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          type="text"
           placeholder="Mensaje"
+          required
           rows="5"
         ></textarea>
       </div>
       <div className="flex items-center justify-between">
-      <button className="text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full w-36 h-12">Empezar</button>
+      <button type='submit' disabled={loading} className="text-2xl font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full w-36 h-12">
+        {loading ? 'Enviando.....' : 'Enviar'}
+      </button>
       </div>
     </form>
 

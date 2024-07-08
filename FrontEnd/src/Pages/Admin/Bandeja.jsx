@@ -1,22 +1,50 @@
-// src/components/Bandeja.js
-// eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/HeaderAdmin';
 import Footer from '../../components/footer';
+import { useGetOpinion } from '../../hooks/opinion.hook';
 
 const Bandeja = () => {
   const [menuVisible, setMenuVisible] = useState(true);
   const [activeTab, setActiveTab] = useState('Recibidos');
   const [selectAll, setSelectAll] = useState(false);
-  const [selectedMessages, setSelectedMessages] = useState({
-    user002: false,
-    user003: false,
-    chat_user001: false,
-    chat_user002: false,
-    comentario_user001: false,
-    comentario_user002: false,
-  });
- 
+  const [selectedMessages, setSelectedMessages] = useState({});
+  const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [opinions, setOpinions] = useState([]);
+  const [filteredOpinions, setFilteredOpinions] = useState([]);
+
+  useEffect(() => {
+    const fetchOpinion = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await useGetOpinion();
+        setOpinions(data);
+        setFilteredOpinions(data); // Set initial filtered opinions to all opinions
+        const initialSelectedMessages = data.reduce((acc, opinion) => {
+          acc[opinion._id] = false;
+          return acc;
+        }, {});
+        setSelectedMessages(initialSelectedMessages);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchOpinion();
+  }, []);
+
+  useEffect(() => {
+    // Filter opinions based on search text
+    const filtered = opinions.filter(opinion =>
+      opinion.name.toLowerCase().includes(searchText.toLowerCase()) ||
+      opinion.message.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFilteredOpinions(filtered);
+  }, [opinions, searchText]);
+
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
   };
@@ -53,18 +81,40 @@ const Bandeja = () => {
         </div>
         <div className="text-xl font-serif">Message</div>
         <div className="flex-grow mx-4 relative">
-          <input
-            type="text"
-            placeholder="Search users"
-            className="border rounded px-2 py-1 w-full"
-          />
+          {activeTab === 'Comentarios' ? (
+            <input
+              type="text"
+              placeholder="Buscar comentarios"
+              className="border rounded px-2 py-1 w-full"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+          ) : (
+            <input
+              type="text"
+              placeholder="Buscar mensajes"
+              className="border rounded px-2 py-1 w-full"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+          )}
           <span className="absolute right-3 top-2 text-gray-500">🔍</span>
         </div>
         <div className="flex items-center">
-          <button className="mr-2" onClick={handleSelectAll}>Seleccionar todo</button>
-          <input type="checkbox" className="mr-2" checked={selectAll} onChange={handleSelectAll} />
-          <button className="mr-2 text-red-600">🗑️</button>
-          <button className="text-blue-500">☁️</button>
+          {activeTab === 'Comentarios' ? (
+            <>
+              <button className="mr-2" onClick={handleSelectAll}>Seleccionar todo</button>
+              <input type="checkbox" className="mr-2" checked={selectAll} onChange={handleSelectAll} />
+              <button className="mr-2">🔄</button>
+              <button className="mr-2 text-blue-500">🗑️</button>
+            </>
+          ) : (
+            <>
+              <button className="mr-2" onClick={handleSelectAll}>Seleccionar todo</button>
+              <input type="checkbox" className="mr-2" checked={selectAll} onChange={handleSelectAll} />
+              <button className="mr-2 text-red-600">🗑️</button>
+            </>
+          )}
         </div>
       </div>
       <div className="flex flex-grow bg-transparent">
@@ -93,20 +143,15 @@ const Bandeja = () => {
         <div className={`flex flex-col ${menuVisible ? 'w-5/6' : 'w-full'} bg-transparent rounded-lg p-4`}>
           {activeTab === 'Recibidos' && (
             <div>
-              <div className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4">
-                <div className="flex items-center justify-between">
-                  <div className="font-bold">user002</div>
-                  <input type="checkbox" className="mr-2" checked={selectedMessages.user002} onChange={() => handleCheckboxChange('user002')} />
+              {filteredOpinions.map((opinion) => (
+                <div key={opinion._id} className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="font-bold">{opinion.name}</div>
+                    <input type="checkbox" className="mr-2" checked={selectedMessages[opinion._id]} onChange={() => handleCheckboxChange(opinion._id)} />
+                  </div>
+                  <div className="text-gray-600 dark:text-gray-300">{opinion.message}</div>
                 </div>
-                <div className="text-gray-600 dark:text-gray-300">Su servicio es excelente</div>
-              </div>
-              <div className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4">
-                <div className="flex items-center justify-between">
-                  <div className="font-bold">user003</div>
-                  <input type="checkbox" className="mr-2" checked={selectedMessages.user003} onChange={() => handleCheckboxChange('user003')} />
-                </div>
-                <div className="text-gray-600 dark:text-gray-300">Su servicio es excelente</div>
-              </div>
+              ))}
             </div>
           )}
           {activeTab === 'Chat' && (
@@ -129,20 +174,15 @@ const Bandeja = () => {
           )}
           {activeTab === 'Comentarios' && (
             <div>
-              <div className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4">
-                <div className="flex items-center justify-between">
-                  <div className="font-bold">comentario_user001</div>
-                  <input type="checkbox" className="mr-2" checked={selectedMessages.comentario_user001} onChange={() => handleCheckboxChange('comentario_user001')} />
+              {filteredOpinions.map((opinion) => (
+                <div key={opinion._id} className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="font-bold">{opinion.name}</div>
+                    <input type="checkbox" className="mr-2" checked={selectedMessages[opinion._id]} onChange={() => handleCheckboxChange(opinion._id)} />
+                  </div>
+                  <div className="text-gray-600 dark:text-gray-300">{opinion.message}</div>
                 </div>
-                <div className="text-gray-600 dark:text-gray-300">Comentario reciente</div>
-              </div>
-              <div className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4">
-                <div className="flex items-center justify-between">
-                  <div className="font-bold">comentario_user002</div>
-                  <input type="checkbox" className="mr-2" checked={selectedMessages.comentario_user002} onChange={() => handleCheckboxChange('comentario_user002')} />
-                </div>
-                <div className="text-gray-600 dark:text-gray-300">Comentario reciente</div>
-              </div>
+              ))}
             </div>
           )}
         </div>

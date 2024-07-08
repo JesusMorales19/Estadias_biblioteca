@@ -15,3 +15,13 @@ try {
 }
 }
 
+export const getAllCategory = async (req, res) => {
+    try {
+        const category = await Categorys.find();
+        console.log(category);
+        res.send(category);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error al obtener las Categorias")
+    }
+}

@@ -1,11 +1,18 @@
 import mongoose from "mongoose";
+import AutoIncrementFactory from 'mongoose-sequence';
+
+const AutoIncrement = AutoIncrementFactory(mongoose);
 
 const opinionsSchema = new mongoose.Schema({
+    idOpinion:{
+        type: Number,
+        unique: true,
+        trim: true,
+        default: 0
+    },
     email: {
         type: String,
         required: true,
-        trim: true,
-        inique: true,
     },
     name: {
         type: String,
@@ -16,5 +23,7 @@ const opinionsSchema = new mongoose.Schema({
         required: true,
     },
 });
+
+opinionsSchema.plugin(AutoIncrement, { inc_field: 'idOpinion'});
 
 export default mongoose.model("Opinions", opinionsSchema)

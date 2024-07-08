@@ -1,4 +1,4 @@
-import { registerBooks, getBooks, deleteBooks, deleteFBook, recoverBook, getActiveBooks } from "../services/book.services.js";
+import { registerBooks, getBooks, deleteBooks, deleteFBook, recoverBook, getActiveBooks, getBooksByCategory } from "../services/book.services.js";
 
 export const useRegisterBook = async (book) => {
     try {
@@ -61,4 +61,14 @@ try {
     throw error;
 }
 
+}
+
+export const useGetBooksByCategory = async (id) => {
+    try {
+        const res = await getBooksByCategory(id)
+        return res.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
 }

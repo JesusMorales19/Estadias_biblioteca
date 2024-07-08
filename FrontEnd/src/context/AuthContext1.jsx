@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useVerifyToken, useVerifyUsername } from "../hooks/client.hook";
+
 const AuthContext = React.createContext();
 
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {
-        throw new Error("useAuth should be used within an AuthProvider");
+        throw new Error("useAuth debe ser utilizado dentro de un AuthProvider");
     }
     return context;
 };
 
-// eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState(null);
@@ -20,7 +20,10 @@ const AuthProvider = ({ children }) => {
             try {
                 const token = localStorage.getItem("token");
                 const username = localStorage.getItem("username");
-
+    
+                console.log("Token:", token);
+                console.log("Username:", username);
+    
                 if (token && username) {
                     await Promise.all([
                         useVerifyToken(),
@@ -37,18 +40,18 @@ const AuthProvider = ({ children }) => {
                 setUserRole(null);
             }
         };
-
+    
         checkAuth();
-
+    
         const handleStorageChange = () => {
             checkAuth();
         };
-
+    
         window.addEventListener("storage", handleStorageChange);
-
+    
         return () => window.removeEventListener("storage", handleStorageChange);
     }, []);
-
+    
     const logout = () => {
         localStorage.clear();
         setIsAuthenticated(false);
@@ -59,7 +62,6 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("token", token);
         localStorage.setItem("username", username);
         setUserRole(role);
-        console.log(role);
         setIsAuthenticated(true);
     };
 
