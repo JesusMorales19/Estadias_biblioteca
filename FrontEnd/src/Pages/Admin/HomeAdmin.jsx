@@ -48,6 +48,8 @@ const Dashboard = () => {
         setLossBooksCount(librosPerdidos);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false)
       }
     };
 
@@ -61,6 +63,8 @@ const Dashboard = () => {
         setActiveBooksCount(librosActivos);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false)
       }
     };
 
@@ -348,7 +352,7 @@ const Dashboard = () => {
       <div className="flex flex-col md:flex-row justify-between dark:bg-neutral-900">
         <CarrouselPDF />
         <div className="flex flex-col space-y-4 w-full md:w-1/3">
-          <div className="bg-white p-8 rounded-md shadow-md text-center dark:bg-neutral-800 cursor-pointer">
+          <div className="bg-white p-8 rounded-md shadow-md text-center dark:bg-neutral-800 ">
             <h3 className="text-4xl text-blue-600">{activeBooksCount}</h3>
             <p className="text-lg dark:text-white">En vista</p>
           </div>
@@ -401,7 +405,7 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody className="max-h-64">
-            {filteredClients.slice(0, 5).map((client) => (
+            {filteredClients.map((client) => (
               <tr key={client.username} className={`h-16 border-gray-300 dark:border-gray-700 border-b ${!client.status ? 'bg-gray-200 dark:bg-gray-700' : ''}`}>
                 <td className="pl-4 dark:text-white">{client.username}</td>
                 <td className="dark:text-white">{client.email}</td>
@@ -448,7 +452,7 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody className="max-h-64">
-            {filteredBooks.slice(0, 5).map((book) => (
+            {filteredBooks.map((book) => (
               <tr key={book.ISBN} className={`h-16 border-gray-300 dark:border-gray-700 border-b ${!book.status ? 'bg-gray-200 dark:bg-gray-700' : ''}`}>
                 <td className="pl-4 dark:text-white">{book.ISBN}</td>
                 <td className="dark:text-white">{book.title}</td>

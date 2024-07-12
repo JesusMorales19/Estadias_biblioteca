@@ -1,4 +1,5 @@
-import { registerConsult } from "../services/consult.services";
+import { useEffect, useState } from "react";
+import { getStatistics, registerConsult } from "../services/consult.services";
 
 export const useRegisterConsult = async (consult) => {
     try {
@@ -10,3 +11,24 @@ export const useRegisterConsult = async (consult) => {
     }
 
 }
+
+export const useGetStatistics = () => {
+    const [stats, setStats] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const res = await getStatistics()
+                setStats(res.data);
+            } catch (error) {
+                setError(error)
+            } finally {
+                setLoading(false)
+            }
+        };
+        fetchStats();
+    }, []);
+    return { stats, loading, error };
+};

@@ -49,6 +49,8 @@ router.get("/getAll/loan", authMiddleware, LoanControllers.getAllLoans);
 //Opinions Routes
 router.post("/register/opinion", OpinionControllers.registerOpinion);
 router.get("/getAll/opinion", OpinionControllers.getAllOpinios);
+router.delete("/delete/opinion/:code", OpinionControllers.deleteOpinionF)
+router.put("/update/opinion/:idOpinion", OpinionControllers.updateOpinion)
 
 //Consults Routes
 router.post("/register/consult", ConsultControllers.registerConsult);

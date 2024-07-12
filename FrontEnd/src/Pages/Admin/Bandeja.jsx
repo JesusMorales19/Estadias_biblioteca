@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/HeaderAdmin';
 import Footer from '../../components/footer';
-import { useGetOpinion } from '../../hooks/opinion.hook';
+import { useDeleteOpinion, useGetOpinion, useUpdateOpinion } from '../../hooks/opinion.hook';
+import SweetAlert from 'react-bootstrap-sweetalert';
+import { toast } from 'react-toastify';
+import { FaTrashAlt, FaCloudUploadAlt } from 'react-icons/fa';
 
 const Bandeja = () => {
   const [menuVisible, setMenuVisible] = useState(true);
@@ -13,28 +16,107 @@ const Bandeja = () => {
   const [error, setError] = useState(null);
   const [opinions, setOpinions] = useState([]);
   const [filteredOpinions, setFilteredOpinions] = useState([]);
+  const [deleteId, setDeleteId] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null);
+  const [refreshMessage, setRefreshMessage] = useState("");
+
+  const fetchOpinions = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await useGetOpinion();
+      setOpinions(data);
+      setFilteredOpinions(data); // Set initial filtered opinions to all opinions
+      const initialSelectedMessages = data.reduce((acc, opinion) => {
+        acc[opinion._id] = false;
+        return acc;
+      }, {});
+      setSelectedMessages(initialSelectedMessages);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchOpinion = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await useGetOpinion();
-        setOpinions(data);
-        setFilteredOpinions(data); // Set initial filtered opinions to all opinions
-        const initialSelectedMessages = data.reduce((acc, opinion) => {
-          acc[opinion._id] = false;
-          return acc;
-        }, {});
-        setSelectedMessages(initialSelectedMessages);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchOpinion();
+    fetchOpinions();
   }, []);
+
+  const handleDeleteOpinion = async (idOpinion) => {
+    setLoading(true);
+    setError(null);
+    setRefreshMessage("Cargando opiniones...");
+
+    console.log(`Intentando eliminar el comentario con idOpinion: ${idOpinion}`);
+    setDeleteId(idOpinion);
+    setConfirmDelete(() => (
+      <SweetAlert
+        warning
+        showCancel
+        confirmBtnText="Confirmar"
+        confirmBtnBsStyle='btn btn-primary btn-ih'
+        cancelBtnBsStyle='btn btn-secondary'
+        title="¿Estas Seguro?"
+        onConfirm={() => confirmDeleteAction(idOpinion)}
+        onCancel={cancelDeleteAction}
+        focusCancelBtn
+        customButtons={
+          <React.Fragment>
+            <button onClick={() => confirmDeleteAction(idOpinion)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Confirmar
+            </button>
+            <button onClick={cancelDeleteAction} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2">
+              Cancelar
+            </button>
+          </React.Fragment>
+        }
+        style={{ backgroundColor: 'white', color: 'black' }}
+      >
+        Esta accion eliminará el comentario
+      </SweetAlert>
+    ));
+  };
+
+  const confirmDeleteAction = async (id) => {
+    setLoading(true);
+    try {
+      await useDeleteOpinion(id);
+      toast.success('Comentario eliminado exitosamente');
+      await fetchOpinions(); // Refresh opinions after deletion
+    } catch (error) {
+      setError(error.message);
+      toast.error("Error al eliminar el comentario");
+    } finally {
+      setLoading(false);
+      setConfirmDelete(null);
+      setRefreshMessage("");
+    }
+  };
+
+  const cancelDeleteAction = () => {
+    setConfirmDelete(null);
+    setLoading(false);
+    setRefreshMessage("");
+  };
+
+  const handleUpdateOpinion = async (idOpinion, showOnMainPage) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      await useUpdateOpinion(idOpinion, showOnMainPage);
+      setOpinions(opinions.map(opinion => 
+        opinion.idOpinion === idOpinion ? { ...opinion, showOnMainPage } : opinion
+      ));
+      toast.success('Comentario actualizado exitosamente');
+    } catch (error) {
+      setError(error.message);
+      toast.error("Error al actualizar el comentario");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     // Filter opinions based on search text
@@ -100,22 +182,6 @@ const Bandeja = () => {
           )}
           <span className="absolute right-3 top-2 text-gray-500">🔍</span>
         </div>
-        <div className="flex items-center">
-          {activeTab === 'Comentarios' ? (
-            <>
-              <button className="mr-2" onClick={handleSelectAll}>Seleccionar todo</button>
-              <input type="checkbox" className="mr-2" checked={selectAll} onChange={handleSelectAll} />
-              <button className="mr-2">🔄</button>
-              <button className="mr-2 text-blue-500">🗑️</button>
-            </>
-          ) : (
-            <>
-              <button className="mr-2" onClick={handleSelectAll}>Seleccionar todo</button>
-              <input type="checkbox" className="mr-2" checked={selectAll} onChange={handleSelectAll} />
-              <button className="mr-2 text-red-600">🗑️</button>
-            </>
-          )}
-        </div>
       </div>
       <div className="flex flex-grow bg-transparent">
         {menuVisible && (
@@ -141,10 +207,11 @@ const Bandeja = () => {
           </div>
         )}
         <div className={`flex flex-col ${menuVisible ? 'w-5/6' : 'w-full'} bg-transparent rounded-lg p-4`}>
-          {activeTab === 'Recibidos' && (
+          {loading && <div className="text-center text-lg font-semibold">{refreshMessage}</div>}
+          {!loading && activeTab === 'Recibidos' && (
             <div>
               {filteredOpinions.map((opinion) => (
-                <div key={opinion._id} className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4">
+                <div key={opinion._id} className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4 break-words">
                   <div className="flex items-center justify-between">
                     <div className="font-bold">{opinion.name}</div>
                     <input type="checkbox" className="mr-2" checked={selectedMessages[opinion._id]} onChange={() => handleCheckboxChange(opinion._id)} />
@@ -154,16 +221,16 @@ const Bandeja = () => {
               ))}
             </div>
           )}
-          {activeTab === 'Chat' && (
+          {!loading && activeTab === 'Chat' && (
             <div>
-              <div className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4">
+              <div className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4 break-words">
                 <div className="flex items-center justify-between">
                   <div className="font-bold">chat_user001</div>
                   <input type="checkbox" className="mr-2" checked={selectedMessages.chat_user001} onChange={() => handleCheckboxChange('chat_user001')} />
                 </div>
                 <div className="text-gray-600 dark:text-gray-300">Conversación reciente</div>
               </div>
-              <div className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4">
+              <div className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4 break-words">
                 <div className="flex items-center justify-between">
                   <div className="font-bold">chat_user002</div>
                   <input type="checkbox" className="mr-2" checked={selectedMessages.chat_user002} onChange={() => handleCheckboxChange('chat_user002')} />
@@ -172,19 +239,27 @@ const Bandeja = () => {
               </div>
             </div>
           )}
-          {activeTab === 'Comentarios' && (
+          {!loading && activeTab === 'Comentarios' && (
             <div>
               {filteredOpinions.map((opinion) => (
-                <div key={opinion._id} className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4">
-                  <div className="flex items-center justify-between">
+                <div key={opinion._id} className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4 break-words">
+                  <div className="flex justify-between items-center">
                     <div className="font-bold">{opinion.name}</div>
-                    <input type="checkbox" className="mr-2" checked={selectedMessages[opinion._id]} onChange={() => handleCheckboxChange(opinion._id)} />
+                    <div className="flex">
+                      <button onClick={() => handleDeleteOpinion(opinion.idOpinion)} className="text-red-500 ml-auto">
+                        <FaTrashAlt />
+                      </button>
+                      <button onClick={() => handleUpdateOpinion(opinion.idOpinion, !opinion.showOnMainPage)} className="text-blue-500 ml-2">
+                        <FaCloudUploadAlt />
+                      </button>
+                    </div>
                   </div>
                   <div className="text-gray-600 dark:text-gray-300">{opinion.message}</div>
                 </div>
               ))}
             </div>
           )}
+          {confirmDelete}
         </div>
       </div>
       <Footer />

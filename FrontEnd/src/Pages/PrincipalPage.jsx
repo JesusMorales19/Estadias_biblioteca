@@ -21,8 +21,10 @@ import reb from "../assets/libro_reb.jpg";
 import Footer from "../components/footer.jsx";
 import { Button } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
-import { useRegisterOpinion } from '../hooks/opinion.hook.js';
+import { useRegisterOpinion, useGetOpinion } from '../hooks/opinion.hook.js';
 import { toast } from 'react-toastify';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css'
 
 const profiles = [
 
@@ -63,6 +65,7 @@ const profiles = [
 const PrincipalPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [name, setName] = useState('');
+  const [opinions, setOpinions] = useState([]);
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -88,6 +91,21 @@ const PrincipalPage = () => {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    const fetchOpinion = async () => {
+      try {
+        const data = await useGetOpinion();
+        const selectedOpinions = data.filter(opinion => opinion.showOnMainPage); // Filtrar las opiniones seleccionadas
+        setOpinions(selectedOpinions);
+      } catch (error) {
+        console.error('Error fetching opinions:', error);
+      }
+    };
+
+    fetchOpinion();
+  }, []);
+
 
   const navigate = useNavigate();
 
@@ -124,6 +142,48 @@ const PrincipalPage = () => {
   const handleLogin = () => {
     navigate("/login");
   };
+
+
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 0 },
+      items: 1,
+      slidesToSlide: 1
+    },
+    desktop: {
+      breakpoint: { max: 1024, min: 0 },
+      items: 1,
+      slidesToSlide: 1
+    },
+    tablet: {
+      breakpoint: { max: 768, min: 0 },
+      items: 1,
+      slidesToSlide: 1
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1
+    }
+  };
+
+  const CustomLeftArrow = ({ onClick }) => (
+    <div className="absolute left-0 top-1/2 transform -translate-y-1/2 p-2 bg-white rounded-full cursor-pointer" onClick={onClick}>
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+      </svg>
+    </div>
+  );
+  
+  const CustomRightArrow = ({ onClick }) => (
+    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 p-2 bg-white rounded-full cursor-pointer" onClick={onClick}>
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  );
+
+  
 
   return (
     <div className="bg-gray-50 p-4 dark:bg-neutral-900 min-h-screen relative">
@@ -314,7 +374,55 @@ const PrincipalPage = () => {
         </button>
       </div>
     </div>
-     
+
+
+    {/*Carrusel de opiniones*/}
+    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+  <div className="bg-blue-600 p-8 rounded-lg flex items-start justify-between">
+    <div className="w-96 mt-28 ml-24 justify-center text-center"> {/* Cambiado de text-left a text-center */}
+      <h2 className="text-6xl font-semibold text-white ">Tus opiniones son valiosas</h2>
+      <div className="flex justify-center mt-4">
+        <CustomLeftArrow />
+        <CustomRightArrow />
+      </div>
+    </div>
+    <div className="w-1/2 relative">
+      <Carousel
+        additionalTransfrom={0}
+        arrows
+        autoPlay
+        autoPlaySpeed={3000}
+        centerMode={false}
+        className="carousel"
+        containerClass="container-with-dots"
+        dotListClass="custom-dot-list-style"
+        draggable
+        focusOnSelect={false}
+        infinite
+        itemClass=""
+        keyBoardControl
+        minimumTouchDrag={80}
+        renderButtonGroupOutside={false}
+        renderDotsOutside
+        responsive={responsive}
+        showDots
+        sliderClass=""
+        slidesToSlide={1}
+        swipeable
+        customLeftArrow={<CustomLeftArrow />}
+        customRightArrow={<CustomRightArrow />}
+      >
+        {opinions.map((opinion) => (
+          <div key={opinion._id} className="flex flex-col items-center justify-center p-4 bg-blue-200 min-h-96 rounded-lg shadow-md break-words ">
+            <div className="text-3xl text-center text-black mt-2">{opinion.message}</div> {/* Aumentado el tamaño del texto a text-lg */}
+          </div>
+        ))}
+      </Carousel>
+    </div>
+  </div>
+</div>
+
+
   {/* Sección de contacto */}
   <div id='opinion' className="relative z-10 mx-auto mt-4 mb-8 w-full md:w-2/3 bg-gray-100 p-8 rounded-3xl shadow-lg">
       <h2 className="text-2xl font-bold mb-4 text-center">Contáctanos</h2>

@@ -26,3 +26,35 @@ export const getAllOpinios = async (req, res) => {
     res.status(500).send("Error al obtener Opinions");
   }
 };
+
+export const deleteOpinionF = async (req, res) => {
+    try {
+        const { code } = req.params;
+        const existingOpinion = await Opinions.findOne({ idOpinion: code});
+        const deletedOpinion = await existingOpinion.deleteOne();
+        res.send(deletedOpinion);
+    } catch (error) {
+        res.status(500).send("Opinion cannot be deleted");
+    }
+};
+
+export const updateOpinion = async (req, res) => {
+  const { idOpinion } = req.params;
+  const { showOnMainPage } = req.body;
+
+  try {
+    const updatedOpinion = await Opinions.findOneAndUpdate(
+      { idOpinion },
+      { showOnMainPage: true },
+      { new: true }
+    );
+
+    if (!updatedOpinion) {
+      return res.status(404).json({ message: 'Opinion not found' });
+    }
+
+    res.json(updatedOpinion);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

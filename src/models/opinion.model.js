@@ -22,6 +22,10 @@ const opinionsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    showOnMainPage: {
+        type: Boolean,
+        default: false,
+      },
 });
 
 opinionsSchema.plugin(AutoIncrement, { inc_field: 'idOpinion'});

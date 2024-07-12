@@ -9,3 +9,11 @@ export const registerOpinion = async (opinion) => {
 export const getOpinion = async () => {
     return axios.get(`${URL_API}/getAll/opinion`)
 }
+
+export const deleteOpinion = async (id) => {
+    return axios.delete(`${URL_API}/delete/opinion/${id}`)
+}
+
+export const updateOpinion = async (id) => {
+    return axios.put(`${URL_API}/update/opinion/${id}`)
+}
