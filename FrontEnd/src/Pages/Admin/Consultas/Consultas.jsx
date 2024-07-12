@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-import HeaderAdmin from '../../../components/HeaderAdmin.jsx';
+import HeaderAdmin from '../../../components/Admin/HeaderAdmin.jsx';
 import Loans from './Loans';
 import LossBooks from './LossBooks';
 import DonationBooks from './DonationBooks';

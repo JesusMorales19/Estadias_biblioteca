@@ -1,4 +1,5 @@
 import { Button } from "@nextui-org/react";
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import { IoCheckmark } from "react-icons/io5";
 

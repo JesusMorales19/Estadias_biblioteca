@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-import ChartComponent from './graph'; // Importa tu componente de gráfica
-import PdfComponent from '../Pages/Admin/PDF/PDF.jsx'; // Importa tu componente de PDF
+import ChartComponent from '../Admin/graph.jsx'; // Importa tu componente de gráfica
+import PdfComponent from '../../Pages/Admin/PDF/PDF.jsx'; // Importa tu componente de PDF
 
 const CarouselDefault = () => {
   const slides = [

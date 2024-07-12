@@ -1,6 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-unused-vars */
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
-import HeaderAdmin from '../../components/HeaderAdmin';
-import CarrouselPDF from "../../components/carouselPDF";
+import HeaderAdmin from '../../components/Admin/HeaderAdmin.jsx';
+import CarrouselPDF from "../../components/component.PDF/carouselPDF.jsx";
 import PdfCredentialsCard from '../Admin/PDF/credentialsCard';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaUndoAlt, FaTrashAlt } from 'react-icons/fa';

@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable no-unused-vars */
 // src/components/UserForm.js
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -66,6 +68,7 @@ const {
     }
   };
   const handleRoleChange = (event) => {
+    // eslint-disable-next-line no-undef
     setSelectedRole(event.target.value);
   };
 

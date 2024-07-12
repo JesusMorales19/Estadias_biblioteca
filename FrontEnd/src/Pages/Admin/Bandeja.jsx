@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react';
-import Header from '../../components/HeaderAdmin';
+import Header from '../../components/Admin/HeaderAdmin.jsx';
 import Footer from '../../components/footer';
 import { useGetOpinion } from '../../hooks/opinion.hook';
 

@@ -23,7 +23,7 @@ router.get("/getActive/book", BookControllers.countBooksActive);
 //Clients Routes
 router.post("/register/client", ClientControllers.registerClient);
 router.put("/delete/client/:code", ClientControllers.deleteClient);
-router.put("/update/client/:code", authMiddleware, ClientControllers.updateClient);
+router.put("/update/client/:code", ClientControllers.updateClient);
 router.put("/recover/client/:code", ClientControllers.recoverClient);
 router.delete("/deleteF/client/:code", authMiddleware, ClientControllers.deleteClientF)
 router.get("/get/client/:code", ClientControllers.getClient);

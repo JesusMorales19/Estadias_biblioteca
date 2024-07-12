@@ -1,8 +1,8 @@
 // src/pages/Registro.js
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-import HeaderAdmin from '../../../components/HeaderAdmin';
-import TabButtons from '../../../components/tabButton';
+import HeaderAdmin from '../../../components/Admin/HeaderAdmin';
+import TabButtons from '../../../components/Admin/tabButton';
 import UserForm from './registros_internos/users';
 import BookForm from './registros_internos/libros';
 import Prestamos from './registros_internos/Prestamos';
