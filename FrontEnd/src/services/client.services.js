@@ -13,7 +13,7 @@ export function getClient(client) {
 export function verifyToken(token) {
     return axios.get(`${URL_API}/verify-token`, {headers: {Authorization: token}})
 }
-
+ 
 export function verifyUsername(username){
     return axios.get(`${URL_API}/verify-username/${username}`)
 }
@@ -34,3 +34,8 @@ export function recoverClient(id) {
 export function getAllClient(){
     return axios.get(`${URL_API}/getAll/client`);
 }
+
+export function updateClient(id, data) {
+    return axios.put(`${URL_API}/update/client/${id}`, data);
+}
+  

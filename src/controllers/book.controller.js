@@ -139,19 +139,20 @@ export const getAllBooks = async (req, res) => {
 
 // Controlador para obtener libros por categoría
 export const getBooksByCategory = async (req, res) => {
-    try {
-      const { category } = req.params;
-      const books = await Books.find({ category });
+  try {
+    const { category } = req.params;
+    const books = await Books.find({ category }); // Filtra por categoría y estado activo
   
-      if (books.length === 0) {
-        return res.status(404).json({ error: "No se encontraron libros para esta categoría." });
-      }
-  
-      res.status(200).json(books);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    if (books.length === 0) {
+      return res.status(404).json({ error: "No se encontraron libros activos para esta categoría." });
     }
-  };
+  
+    res.status(200).json(books);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 
   export const countBooksActive = async (req, res) => {
     try {

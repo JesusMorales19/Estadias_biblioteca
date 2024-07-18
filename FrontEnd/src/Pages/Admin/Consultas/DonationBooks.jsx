@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react';
 import { useAltDonation, useGetDonation } from '../../../hooks/donation.hook';
 import { FaUndoAlt, FaSearch } from 'react-icons/fa';
@@ -9,6 +10,7 @@ const DonationBooks = () => {
   const [donations, setDonations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [deDarAlta, setdeDarAlta] = useState(null);
   const [ConfirmDeAlta, setConfirmDeAlta] = useState(null);
   const [searchText, setSearchText] = useState("");

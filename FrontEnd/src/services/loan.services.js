@@ -18,3 +18,7 @@ export const getLoans = async (token) => {
 export const returnLoan = async (id) => {
   return axios.post(`${URL_API}/return/loan/${id}`);
 };
+
+export const getUserLoan = async (username) => {
+  return axios.get(`${URL_API}/getUser/loan/${username}`)
+}

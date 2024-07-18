@@ -1,6 +1,6 @@
 
 import { Router } from "express";
-import { UserControllers, BookControllers, ClientControllers, CategoryControllers, OpinionControllers, LoanControllers, LossControllers, DonationControllers, ConsultControllers } from "../controllers/controllers.js";
+import { UserControllers, BookControllers, ClientControllers, CategoryControllers, OpinionControllers, LoanControllers, LossControllers, DonationControllers, ConsultControllers, ReservationControllers } from "../controllers/controllers.js";
 import authMiddleware from "../middleware/validate.middleware.js";
 
 const router = Router();
@@ -23,7 +23,7 @@ router.get("/getActive/book", BookControllers.countBooksActive);
 //Clients Routes
 router.post("/register/client", ClientControllers.registerClient);
 router.put("/delete/client/:code", ClientControllers.deleteClient);
-router.put("/update/client/:code", authMiddleware, ClientControllers.updateClient);
+router.put("/update/client/:code", ClientControllers.updateClient);
 router.put("/recover/client/:code", ClientControllers.recoverClient);
 router.delete("/deleteF/client/:code", authMiddleware, ClientControllers.deleteClientF)
 router.get("/get/client/:code", ClientControllers.getClient);
@@ -45,6 +45,7 @@ router.get("/getLoss/book", LossControllers.countLossBooksActive);
 router.post("/register/loan", authMiddleware, LoanControllers.registerLoans);
 router.post("/return/loan/:idLoan", LoanControllers.returnLoan);
 router.get("/getAll/loan", authMiddleware, LoanControllers.getAllLoans);
+router.get("/getUser/loan/:username", LoanControllers.getLoansUser);
 
 //Opinions Routes
 router.post("/register/opinion", OpinionControllers.registerOpinion);
@@ -59,6 +60,12 @@ router.get('/statistics', ConsultControllers.getStatistics);
 //Categorys Routes
 router.post("/register/category", CategoryControllers.registerCategory);
 router.get("/getAll/category", CategoryControllers.getAllCategory);
+
+//Reservation Routes
+router.post("/register/reservation", ReservationControllers.addReservation);
+router.delete("/delete/reservation/:ISBN/:username", ReservationControllers.deleteReservation)
+router.get('/getAll/reservation', ReservationControllers.getAllReservations);
+router.get('/reservation/count/:username', ReservationControllers.countUserReservations);
 
 //Verify Token
 router.get("/verify-token", authMiddleware, (req, res) => { res.json({ message: 'Acceso Permitido' })});

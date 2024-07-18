@@ -2,6 +2,7 @@
 
 import { Loans, Books, Client, lossBooks } from "../models/models.js";
 import mongoose from "mongoose";
+import { sendReminderEmail } from "../config/mailer.loans.js";
 
 // Función para registrar un nuevo préstamo
 export const registerLoans = async (req, res) => {
@@ -43,6 +44,7 @@ export const registerLoans = async (req, res) => {
             lastName: client.lastName,
             address: client.address,
             phoneNumber: client.phoneNumber,
+            email: client.email,
             creatdAt,
             finalDate,
         });
@@ -68,7 +70,8 @@ export const registerLoans = async (req, res) => {
                 firstName: client.firstName,
                 lastName: client.lastName,
                 address: client.address,
-                phoneNumber: client.phoneNumber
+                phoneNumber: client.phoneNumber,
+                email: client.email
             },
         };
 
@@ -101,6 +104,7 @@ export const updateOverdueLoans = async () => {
                     lastName: client.lastName,
                     address: client.address,
                     phoneNumber: client.phoneNumber,
+                    email: client.email,
                     returnDate: currentDate,
                 });
 
@@ -187,3 +191,40 @@ export const getAllLoans = async (req, res) => {
       return res.status(500).send("Error al obtener Loans");
     }
 };
+
+export const getLoansUser = async (req, res) => {
+    const { username } = req.params;
+    try {
+      const loansUser = await Loans.find({ username });
+      if (!loansUser.length) {
+        return res.status(404).json({ message: 'No se encontraron libros prestados para este usuario' });
+      }
+  
+      // Calcular días restantes y enviar correos electrónicos si quedan 3 días o menos
+      const today = new Date();
+      const notifications = loansUser.map(async (loan) => {
+        const returnDate = new Date(loan.finalDate);
+        const diffTime = returnDate - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+        if (diffDays <= 3 && diffDays >= 0) {
+          const message = `El libro "${loan.title}" debe ser entregado en ${diffDays} días.`;
+          try {
+            await sendReminderEmail(loan.email, loan.title, message);
+            console.log(`Correo enviado a ${loan.email}`);
+          } catch (error) {
+            console.error(`Error al enviar correo a ${loan.email}:`, error);
+          }
+        }
+      });
+  
+      await Promise.all(notifications);
+  
+      return res.status(200).json(loansUser);
+    } catch (error) {
+      console.error("Error al obtener los libros prestados del usuario:", error);
+      return res.status(500).json({ message: "Error al obtener los libros prestados del usuario" });
+    }
+  };
+
+

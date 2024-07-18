@@ -137,7 +137,7 @@ const Loans = () => {
                 <td className="border border-gray-200 dark:border-gray-700 p-2">{item.firstName}</td>
                 <td className="border border-gray-200 dark:border-gray-700 p-2">{item.lastName}</td>
                 <td className="border border-gray-200 dark:border-gray-700 p-2">{item.address}</td>
-                <td className="border border-gray-200 dark:border-gray-700 p-2">{item.creatdAt}</td>
+                <td className="border border-gray-200 dark:border-gray-700 p-2">{item.createdAt}</td>
                 <td className="border border-gray-200 dark:border-gray-700 p-2">{item.finalDate}</td>
                 <td className="border border-gray-200 dark:border-gray-700 p-2 text-center">
                   <button

@@ -1,15 +1,17 @@
-// src/pages/Registro.js
-// eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
-import HeaderAdmin from '../../../components/HeaderAdmin';
-import TabButtons from '../../../components/tabButton';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import HeaderAdmin from '../../../components/Admin/HeaderAdmin';
+import TabButtons from '../../../components/Admin/tabButton';
 import UserForm from './registros_internos/users';
 import BookForm from './registros_internos/libros';
 import Prestamos from './registros_internos/Prestamos';
 import Consulta from './registros_internos/consulta';
 
 const Registro = () => {
-  const [selectedTab, setSelectedTab] = useState('libros');
+  const location = useLocation();
+  const initialState = location.state || { selectedTab: 'libros'};
+  const [selectedTab, setSelectedTab] = useState(initialState.selectedTab);
+
 
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
@@ -21,9 +23,9 @@ const Registro = () => {
         return 'border-blue-600';
       case 'usuarios':
         return 'border-green-600';
-      case'Prestamos':
+      case 'Prestamos':
         return 'border-red-800';
-      case'Consulta':
+      case 'Consulta':
         return 'border-gray-800';
       default:
         return 'border-gray-200';
@@ -38,8 +40,11 @@ const Registro = () => {
         <div className={`bg-white p-8 rounded-md shadow-md w-96 ${getBorderColor()} border-2`}>
           {selectedTab === 'usuarios' && <UserForm />}
           {selectedTab === 'libros' && <BookForm />}
-          {selectedTab === 'Prestamos' && <Prestamos/>}
-          {selectedTab === 'Consulta'&&<Consulta/>}
+          {selectedTab === 'Prestamos' && (
+            <Prestamos
+            />
+          )}
+          {selectedTab === 'Consulta' && <Consulta />}
         </div>
       </div>
     </div>

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../../components/HeaderAdmin';
+import Header from '../../components/Admin/HeaderAdmin.jsx';
 import Footer from '../../components/footer';
 import { useDeleteOpinion, useGetOpinion, useUpdateOpinion } from '../../hooks/opinion.hook';
+import { useGetAllReservation } from '../../hooks/reservation.hook.js';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import { toast } from 'react-toastify';
-import { FaTrashAlt, FaCloudUploadAlt } from 'react-icons/fa';
+import { FaTrashAlt, FaCloudUploadAlt, FaCheck } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';  // Import FaCheck icon
 
 const Bandeja = () => {
   const [menuVisible, setMenuVisible] = useState(true);
@@ -16,9 +18,16 @@ const Bandeja = () => {
   const [error, setError] = useState(null);
   const [opinions, setOpinions] = useState([]);
   const [filteredOpinions, setFilteredOpinions] = useState([]);
+  const [reservations, setReservations] = useState([]);
   const [deleteId, setDeleteId] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);
   const [refreshMessage, setRefreshMessage] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchOpinions();
+    fetchReservations();
+  }, []);
 
   const fetchOpinions = async () => {
     setLoading(true);
@@ -39,16 +48,24 @@ const Bandeja = () => {
     }
   };
 
-  useEffect(() => {
-    fetchOpinions();
-  }, []);
+  const fetchReservations = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await useGetAllReservation(); // Asumimos que tienes un hook para obtener reservas
+      setReservations(data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDeleteOpinion = async (idOpinion) => {
     setLoading(true);
     setError(null);
     setRefreshMessage("Cargando opiniones...");
 
-    console.log(`Intentando eliminar el comentario con idOpinion: ${idOpinion}`);
     setDeleteId(idOpinion);
     setConfirmDelete(() => (
       <SweetAlert
@@ -57,7 +74,7 @@ const Bandeja = () => {
         confirmBtnText="Confirmar"
         confirmBtnBsStyle='btn btn-primary btn-ih'
         cancelBtnBsStyle='btn btn-secondary'
-        title="¿Estas Seguro?"
+        title="¿Estás Seguro?"
         onConfirm={() => confirmDeleteAction(idOpinion)}
         onCancel={cancelDeleteAction}
         focusCancelBtn
@@ -73,7 +90,7 @@ const Bandeja = () => {
         }
         style={{ backgroundColor: 'white', color: 'black' }}
       >
-        Esta accion eliminará el comentario
+        Esta acción eliminará el comentario
       </SweetAlert>
     ));
   };
@@ -106,7 +123,7 @@ const Bandeja = () => {
 
     try {
       await useUpdateOpinion(idOpinion, showOnMainPage);
-      setOpinions(opinions.map(opinion => 
+      setOpinions(opinions.map(opinion =>
         opinion.idOpinion === idOpinion ? { ...opinion, showOnMainPage } : opinion
       ));
       toast.success('Comentario actualizado exitosamente');
@@ -143,6 +160,14 @@ const Bandeja = () => {
     }, {});
     setSelectAll(newSelectAll);
     setSelectedMessages(newSelectedMessages);
+  };
+
+  const navigateToLoanRegistration = () => {
+    navigate('/Registros', {
+      state: {
+        selectedTab: 'Prestamos',
+      }
+    });
   };
 
   const handleCheckboxChange = (messageId) => {
@@ -223,20 +248,21 @@ const Bandeja = () => {
           )}
           {!loading && activeTab === 'Chat' && (
             <div>
-              <div className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4 break-words">
-                <div className="flex items-center justify-between">
-                  <div className="font-bold">chat_user001</div>
-                  <input type="checkbox" className="mr-2" checked={selectedMessages.chat_user001} onChange={() => handleCheckboxChange('chat_user001')} />
+              {reservations.map((reservation, index) => (
+                <div key={index} className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4 break-words">
+                  <div className="flex items-center justify-between">
+                    <div className="font-bold">{reservation.username}</div>
+                  </div>
+                  <div className="text-gray-600 dark:text-gray-300">
+                    ISBN: {reservation.ISBN}, Título: {reservation.title}, Categoría: {reservation.category}
+                  </div>
+                  <div className="flex">
+                  <button onClick={ navigateToLoanRegistration} className="text-green-500 ml-auto">
+                        <FaCheck />
+                      </button>
+                    </div>
                 </div>
-                <div className="text-gray-600 dark:text-gray-300">Conversación reciente</div>
-              </div>
-              <div className="flex flex-col border-b pb-2 mb-2 rounded-lg bg-green-400 bg-opacity-20 shadow-md p-4 break-words">
-                <div className="flex items-center justify-between">
-                  <div className="font-bold">chat_user002</div>
-                  <input type="checkbox" className="mr-2" checked={selectedMessages.chat_user002} onChange={() => handleCheckboxChange('chat_user002')} />
-                </div>
-                <div className="text-gray-600 dark:text-gray-300">Conversación reciente</div>
-              </div>
+              ))}
             </div>
           )}
           {!loading && activeTab === 'Comentarios' && (

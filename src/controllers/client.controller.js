@@ -81,7 +81,7 @@ export const recoverClient = async (req, res) => {
 
 export const updateClient = async (req, res) => {
     const { code } = req.params;
-    const { address, phoneNumber, age } = req.body;
+    const { address, phoneNumber, firstName, lastName } = req.body;
     try {
         const existingClient = await Client.findOne({ username: code });
         if (!existingClient) {
@@ -89,7 +89,8 @@ export const updateClient = async (req, res) => {
         }
         existingClient.address = address;
         existingClient.phoneNumber = phoneNumber;
-        existingClient.age = age;
+        existingClient.firstName = firstName;
+        existingClient.lastName = lastName;
         const updatedClient = await existingClient.save();
         res.send(updatedClient);
     } catch (error) {

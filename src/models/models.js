@@ -7,5 +7,7 @@ import Opinions from "../models/opinion.model.js";
 import lossBooks from "../models/loss.model.js";
 import Donations  from "../models/donation.model.js";
 import Consults from "../models/consult.model.js";
+import Reservations from "./reservation.model.js"
+import Counter from "./counter.model.js";
 
-export {User, Books, Client, Categorys, Loans, Opinions, lossBooks, Donations, Consults}
+export {User, Books, Client, Categorys, Loans, Opinions, lossBooks, Donations, Consults, Reservations, Counter}

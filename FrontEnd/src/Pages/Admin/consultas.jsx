@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-unused-vars */
 // src/Pages/Admin/Consultas.jsx
 import React, { useState, useEffect } from 'react';
-import HeaderAdmin from '../../components/HeaderAdmin';
+import HeaderAdmin from '../../components/Admin/HeaderAdmin.jsx';
 import { useGetLoans, useReturnLoan, useRegisterLoan} from '../../hooks/loan.hook.js';
 import { FaUndoAlt } from 'react-icons/fa';
 

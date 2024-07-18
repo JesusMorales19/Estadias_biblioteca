@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import {useGetStatistics} from '../hooks/consult.hook'; // Asegúrate de que la ruta sea correcta
+import {useGetStatistics} from '../../hooks/consult.hook'; // Asegúrate de que la ruta sea correcta
 
 function Graph() {
   const { stats, loading, error } = useGetStatistics();

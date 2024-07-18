@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useContext } from "react";
 import { useVerifyToken, useVerifyUsername } from "../hooks/client.hook";
 
@@ -11,6 +12,7 @@ export const useAuth = () => {
     return context;
 };
 
+// eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState(null);

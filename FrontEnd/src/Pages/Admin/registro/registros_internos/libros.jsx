@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { useRegisterBook } from '../../../../hooks/book.hook.js';
 import { toast } from 'react-toastify';
@@ -30,6 +31,7 @@ const BookForm = () => {
     };
 
     try {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       await useRegisterBook(book);
       toast.success('Libro Registrado Con Éxito!');
       setISBN('');
@@ -135,13 +137,13 @@ const BookForm = () => {
             <option value='Generalidades'>Generalidades</option>
             <option value='Filosofia'>Filosofia</option>
             <option value='Religion'>Religion</option>
-            <option value='Ciencias Sociales'>Ciencias Sociales</option>
+            <option value='Ciencias_Sociales'>Ciencias Sociales</option>
             <option value='Lenguas'>Lenguas</option>
-            <option value='Ciencias Puras'>Ciencias Puras</option>
+            <option value='Ciencias_Puras'>Ciencias Puras</option>
             <option value='Tecnologias'>Tecnologias</option>
-            <option value='Bellas Artes'>Bellas Artes</option>
+            <option value='Bellas_Artes'>Bellas Artes</option>
             <option value='Literatura'>Literatura</option>
-            <option value='Geografia y Historia'>Geografia</option>
+            <option value='Geografia_y_Historia'>Geografia/Historia</option>
           </select>
         </div>
         <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded" disabled={loading}>

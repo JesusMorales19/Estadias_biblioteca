@@ -80,6 +80,7 @@ const PrincipalPage = () => {
       message,
     };
     try {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       await useRegisterOpinion(opinion);
       toast.success('Opinion registrada con exito');
       setName('');

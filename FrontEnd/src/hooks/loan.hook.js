@@ -1,4 +1,6 @@
-import { registerLoans, getLoans, returnLoan } from '../services/loan.services.js';
+import { registerLoans, getLoans, returnLoan, getUserLoan } from '../services/loan.services.js';
+import { useState, useEffect } from 'react';
+import { getClient } from './client.hook.js';
 
 export const useRegisterLoan = async (loan) => {
   try {
@@ -32,3 +34,35 @@ export const useReturnLoan = async (id) => {
     throw error; // Lanza el error para manejarlo en componentes superiores
   }
 };
+
+
+const useGetLoansUser = () => {
+  const [loans, setLoans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchLoans = async () => {
+      try {
+        const clientResponse = await getClient();
+        const username = clientResponse.data.username;
+        if (username) {
+          const response = await getUserLoan(username);
+          setLoans(response.data);
+        } else {
+          setError('No se encontró el nombre de usuario');
+        }
+      } catch (error) {
+        setError('Error al obtener los libros prestados del usuario');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLoans();
+  }, []);
+
+  return { loans, loading, error };
+};
+
+export default useGetLoansUser;
