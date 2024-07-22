@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getClient } from '../hooks/client.hook';
-import { registerReservation, deleteReservationFromApi, getUserCountReservation, getAllReservation} from '../services/reservation.services';
+import { registerReservation, deleteReservationFromApi, getUserCountReservation, getAllReservation, deleteReservation} from '../services/reservation.services';
 import { Reservations } from '../../../src/models/models';
 
 export const useAddReservation = () => {
@@ -70,5 +70,14 @@ export const useGetAllReservation = async () => {
   } catch (error) {
     console.log(error);
     throw error;
+  }
+}
+
+export const useDeleteFReservation = async (id) => {
+  try {
+    const res = await deleteReservation(id)
+    return res.data;
+  } catch (error) {
+    throw error.response.data;
   }
 }

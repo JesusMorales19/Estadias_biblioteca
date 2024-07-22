@@ -66,6 +66,7 @@ router.post("/register/reservation", ReservationControllers.addReservation);
 router.delete("/delete/reservation/:ISBN/:username", ReservationControllers.deleteReservation)
 router.get('/getAll/reservation', ReservationControllers.getAllReservations);
 router.get('/reservation/count/:username', ReservationControllers.countUserReservations);
+router.delete("/deleteF/reservation/:id", ReservationControllers.deleteFReservation);
 
 //Verify Token
 router.get("/verify-token", authMiddleware, (req, res) => { res.json({ message: 'Acceso Permitido' })});

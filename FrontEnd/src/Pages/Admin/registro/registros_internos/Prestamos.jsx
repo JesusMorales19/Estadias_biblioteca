@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRegisterLoan } from '../../../../hooks/loan.hook.js';
 import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom'; // Importar useLocation
 
 const Prestamos = () => {
   const [ISBN, setISBN] = useState('');
@@ -8,6 +9,15 @@ const Prestamos = () => {
   const [creatdAt, setCreatdAt] = useState('');
   const [finalDate, setFinalDate] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state) {
+      setISBN(location.state.ISBN || '');
+      setUsername(location.state.username || '');
+    }
+  }, [location.state]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

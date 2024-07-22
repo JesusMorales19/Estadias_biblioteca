@@ -59,6 +59,19 @@ export const deleteReservation = async (req, res) => {
       return res.status(500).json({ message: 'Error al eliminar la reservación', error });
     }
   };
+
+  export const deleteFReservation = async (req, res) => {
+    const {id} = req.params;
+    try {
+      const deleted = await Reservations.findByIdAndDelete(id);
+      if(!deleted) {
+        return res.status(404).json({message:"Reserva no encontrada"});
+      };
+      res.status(200).json({message: "Reserva eliminada Exitosamente"});
+    } catch (error) {
+      res.status(500).json({ message: 'Error al eliminar la reserva', error });
+    }
+  }
   
   export const getAllReservations = async (req, res) => {
     try {

@@ -6,7 +6,8 @@ import { FaUndoAlt, FaTrashAlt, FaSearch } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SweetAlert from 'react-bootstrap-sweetalert';
-
+import {format} from "date-fns"
+ 
 const LossBooks = () => {
     const [loss, setLoss] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -162,6 +163,11 @@ const LossBooks = () => {
         (item.author && item.author.toLowerCase().includes(searchText.toLowerCase()))
     );
 
+      // Format dates
+  const formatDate = (date) => {
+    return format(new Date(date), 'dd/MM/yyyy');
+  };
+
     return (
         <div className="container min-w-full p-4 bg-gradient-to-b border-solid border-2 border-sky-700 rounded-lg overflow-auto">
             <div className="flex justify-between mb-4 items-center">
@@ -204,7 +210,7 @@ const LossBooks = () => {
                                 <td className="border border-gray-200 dark:border-gray-700 p-2">{item.lastName}</td>
                                 <td className="border border-gray-200 dark:border-gray-700 p-2">{item.phoneNumber}</td>
                                 <td className="border border-gray-200 dark:border-gray-700 p-2">{item.address}</td>
-                                <td className="border border-gray-200 dark:border-gray-700 p-2">{item.returnDate}</td>
+                                <td className="border border-gray-200 dark:border-gray-700 p-2">{formatDate(item.returnDate)}</td>
                                 <td className="border border-gray-200 dark:border-gray-700 p-2 text-center">
                                     <button
                                         onClick={() => handleRecover(item.idLoan)}

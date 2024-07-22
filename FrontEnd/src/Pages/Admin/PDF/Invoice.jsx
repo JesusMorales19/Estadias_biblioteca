@@ -12,7 +12,7 @@ const data = {
   localidad: "JUAN ALDAMA",
   municipio: "JUAN ALDAMA",
   biblioteca: "RAMON LOPEZ VELARDE",
-  encargado: "ILMA MARTINEZ B",
+  encargado: "IRMA MARTINEZ B",
   coleccion:"2320",
   mes: "MAYO",
   fecha: "28-MAYO-24",

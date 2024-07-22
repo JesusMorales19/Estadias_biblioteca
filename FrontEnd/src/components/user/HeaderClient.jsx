@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext1.jsx';
 import logo from '../../assets/logo_jaz.png';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { IoHome, IoBook } from 'react-icons/io5';
+import { IoHome } from 'react-icons/io5';
 import { GiBookshelf } from "react-icons/gi";
 import { getClient, updateClient } from "../../services/client.services.js";
 import ProfileModal from './profilModal.jsx';
@@ -16,6 +16,7 @@ const MySwal = withReactContent(Swal);
 const HeaderClient = ({ changeTheme, theme }) => {
   const { logout } = useAuth();
   const [user, setUser] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -47,6 +48,10 @@ const HeaderClient = ({ changeTheme, theme }) => {
         logout();
       }
     });
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
   };
 
   const handlePerfil = () => {
@@ -85,15 +90,30 @@ const HeaderClient = ({ changeTheme, theme }) => {
         <div className="flex items-center space-x-2">
           <Link to="/Usuarios" className="text-xl text-white"><IoHome /></Link>
           <Link to="/Carrito" className="text-xl text-white"><GiBookshelf /></Link>
-          <Link to="/Libros" className="text-xl text-white"><IoBook /></Link>
           <button className="text-xl text-white" onClick={toggleTheme}>
             {theme === 'dark' ? '☀️' : '🌙'}
           </button>
           <button onClick={handlePerfil} className="text-xl text-white">👤</button>
           <button className="text-sm font-mono text-white bg-blue-600 hover:bg-blue-500 italic rounded-full w-51 h-12" onClick={handleLogout}>Cerrar Sesión</button>
         </div>
+        <div className="md:hidden flex items-center">
+          <button onClick={toggleMenu} className="text-black z-50">
+            {menuOpen ? '✖️' : '☰'}
+          </button>
+        </div>
       </div>
+      {menuOpen && (
+        <nav className="md:hidden bg-gradient-to-r from-green-600 via-white to-red-600 p-4 rounded-md shadow-md w-full mt-4">
+          <Link to="/Usuarios" className="block py-2 hover:text-blue-600">
+            Home
+          </Link>
+          <Link to="/Carrito" className="block py-2 hover:text-blue-600">
+            Libros Prestados
+          </Link>
+        </nav>
+      )}
     </div>
+    
   );
 };
 

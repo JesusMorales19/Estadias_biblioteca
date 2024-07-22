@@ -18,3 +18,7 @@ export const getAllReservation = async () => {
     return axios.get(`${URL_API}/getAll/reservation`)
 }
 
+export const deleteReservation = async (id) => {
+    return axios.delete(`${URL_API}/deleteF/reservation/${id}`)
+}
+

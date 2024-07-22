@@ -146,28 +146,11 @@ const PrincipalPage = () => {
 
 
   const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 0 },
-      items: 1,
-      slidesToSlide: 1
-    },
-    desktop: {
-      breakpoint: { max: 1024, min: 0 },
-      items: 1,
-      slidesToSlide: 1
-    },
-    tablet: {
-      breakpoint: { max: 768, min: 0 },
-      items: 1,
-      slidesToSlide: 1
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-      slidesToSlide: 1
-    }
+    superLargeDesktop: { breakpoint: { max: 4000, min: 0 }, items: 1, slidesToSlide: 1 },
+    desktop: { breakpoint: { max: 1024, min: 0 }, items: 1, slidesToSlide: 1 },
+    tablet: { breakpoint: { max: 768, min: 0 }, items: 1, slidesToSlide: 1 },
+    mobile: { breakpoint: { max: 464, min: 0 }, items: 1, slidesToSlide: 1 }
   };
-
   const CustomLeftArrow = ({ onClick }) => (
     <div className="absolute left-0 top-1/2 transform -translate-y-1/2 p-2 bg-white rounded-full cursor-pointer" onClick={onClick}>
       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
